@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ProjectApp</string>
+    <string name="distance">%1 away from you.</string>
+</resources>
