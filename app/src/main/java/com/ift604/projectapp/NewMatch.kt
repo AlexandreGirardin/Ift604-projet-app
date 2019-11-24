@@ -9,7 +9,7 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 
-class CardProfil : View {
+class NewMatch : View {
 
     constructor(context: Context) : super(context)
 

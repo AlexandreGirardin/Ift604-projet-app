@@ -2,9 +2,9 @@ package com.ift604.projectapp
 
 import androidx.recyclerview.widget.DiffUtil
 
-class ProfilDiffCallback(
-    private val old: List<Profil>,
-    private val new: List<Profil>
+class ProfileDiffCallback(
+    private val old: List<Profile>,
+    private val new: List<Profile>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

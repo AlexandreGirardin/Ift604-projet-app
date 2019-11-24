@@ -23,8 +23,8 @@
             android:layout_height="150dp"
             android:contentDescription="Profil picture"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/profil_large"
-            tools:srcCompat="@drawable/profil_large" />
+            app:srcCompat="@drawable/profile_large"
+            tools:srcCompat="@drawable/profile_large" />
 
         <TextView
             android:id="@+id/textView2"
@@ -32,6 +32,18 @@
             android:layout_height="wrap_content"
             android:text="There's no one new around you." />
     </LinearLayout>
+
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/swipeCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.yuyakaido.android.cardstackview.CardStackView>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -48,7 +60,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/rewindBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -61,7 +73,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/skipBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -74,7 +86,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/superBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -87,7 +99,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/matchBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -100,7 +112,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/boostBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -112,16 +124,4 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
-
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/swipeCard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.yuyakaido.android.cardstackview.CardStackView>
 </androidx.constraintlayout.widget.ConstraintLayout>

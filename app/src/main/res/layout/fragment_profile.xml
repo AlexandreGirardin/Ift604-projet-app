@@ -7,15 +7,15 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".ProfilFragment">
+    tools:context=".ProfileFragment">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/profil_large"
-        tools:srcCompat="@drawable/profil_large" />
+        app:srcCompat="@drawable/profile_large"
+        tools:srcCompat="@drawable/profile_large" />
 
     <TextView
         android:id="@+id/name"
@@ -68,12 +68,13 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/rewindBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
@@ -100,7 +101,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/skipBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"

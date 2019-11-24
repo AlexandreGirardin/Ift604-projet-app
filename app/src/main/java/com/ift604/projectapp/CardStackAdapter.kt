@@ -10,16 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
 class CardStackAdapter(
-    private var profils: List<Profil> = emptyList()
+    private var profiles: List<Profile> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(inflater.inflate(R.layout.card_profil, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.card_profile, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val profil = profils[position]
+        val profil = profiles[position]
         holder.name.text = profil.name
         holder.age.text = profil.age.toString()
         holder.work.text = profil.work
@@ -27,8 +27,8 @@ class CardStackAdapter(
         val picture = "http://s5.favim.com/orig/140716/girl-hair-lips-mouth-Favim.com-1918955.jpg"
         Picasso.get()
             .load(picture)
-            .placeholder(R.drawable.profil_large)
-            .error(R.drawable.profil_large)
+            .placeholder(R.drawable.profile_large)
+            .error(R.drawable.profile_large)
             .into(holder.image)
 
 
@@ -46,15 +46,15 @@ class CardStackAdapter(
     }
 
     override fun getItemCount(): Int {
-        return profils.size
+        return profiles.size
     }
 
-    fun setProfils(spots: List<Profil>) {
-        this.profils = spots
+    fun setProfils(spots: List<Profile>) {
+        this.profiles = spots
     }
 
-    fun getProfils(): List<Profil> {
-        return profils
+    fun getProfils(): List<Profile> {
+        return profiles
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

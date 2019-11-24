@@ -19,12 +19,12 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton10"
+            android:id="@+id/profileBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/profil" />
+            app:srcCompat="@drawable/profile" />
 
         <Space
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton8"
+            android:id="@+id/swipeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -45,7 +45,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton9"
+            android:id="@+id/likeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -58,7 +58,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imageButton7"
+            android:id="@+id/messageBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

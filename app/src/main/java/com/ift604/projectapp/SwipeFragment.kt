@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.yuyakaido.android.cardstackview.*
@@ -18,6 +21,11 @@ class SwipeFragment : Fragment(), CardStackListener {
     private lateinit var cardStackView: CardStackView
     private lateinit var manager: CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
+    private lateinit var rewindBtn: ImageButton
+    private lateinit var skipBtn: ImageButton
+    private lateinit var superBtn: ImageButton
+    private lateinit var matchBtn: ImageButton
+    private lateinit var boostBtn: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +36,45 @@ class SwipeFragment : Fragment(), CardStackListener {
         manager = CardStackLayoutManager(activity, this)
         adapter = CardStackAdapter(createProfils())
         setupCardStackView()
+
+        rewindBtn = view.findViewById(R.id.rewindBtn)
+        rewindBtn.setOnClickListener {
+            cardStackView.rewind()
+        }
+
+        skipBtn = view.findViewById(R.id.skipBtn)
+        skipBtn.setOnClickListener {
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Left)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            manager.setSwipeAnimationSetting(setting)
+            cardStackView.swipe()
+        }
+
+        superBtn = view.findViewById(R.id.superBtn)
+        superBtn.setOnClickListener {
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Top)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            manager.setSwipeAnimationSetting(setting)
+            cardStackView.swipe()
+        }
+
+        matchBtn = view.findViewById(R.id.matchBtn)
+        matchBtn.setOnClickListener {
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            manager.setSwipeAnimationSetting(setting)
+            cardStackView.swipe()
+        }
+
         return view
     }
 
@@ -48,6 +95,7 @@ class SwipeFragment : Fragment(), CardStackListener {
         manager.setCanScrollVertical(true)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
+
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator.apply {
@@ -66,6 +114,20 @@ class SwipeFragment : Fragment(), CardStackListener {
         if (manager.topPosition == adapter.itemCount - 5) {
             paginate()
         }
+
+        if (manager.topPosition == adapter.itemCount)
+        {
+            skipBtn.setImageResource(R.drawable.cross)
+            superBtn.setImageResource(R.drawable.star)
+            matchBtn.setImageResource(R.drawable.heart)
+        }
+
+        when (direction) {
+            Direction.Right -> Toast.makeText(this.context, "Match", Toast.LENGTH_SHORT).show()
+            Direction.Top -> Toast.makeText(this.context, "Super", Toast.LENGTH_SHORT).show()
+            Direction.Left -> Toast.makeText(this.context, "Skip", Toast.LENGTH_SHORT).show()
+            Direction.Bottom -> Toast.makeText(this.context, "Cancel", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCardRewound() {
@@ -79,6 +141,9 @@ class SwipeFragment : Fragment(), CardStackListener {
     override fun onCardAppeared(view: View, position: Int) {
         val textView = view.findViewById<TextView>(R.id.name)
         Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}")
+        skipBtn.setImageResource(R.drawable.cross_active)
+        superBtn.setImageResource(R.drawable.star_active)
+        matchBtn.setImageResource(R.drawable.heart_active)
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
@@ -89,14 +154,15 @@ class SwipeFragment : Fragment(), CardStackListener {
     private fun paginate() {
         val old = adapter.getProfils()
         val new = old.plus(createProfils())
-        val callback = ProfilDiffCallback(old, new)
+        val callback = ProfileDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
         adapter.setProfils(new)
         result.dispatchUpdatesTo(adapter)
     }
 
-    private fun createProfils(): ArrayList<Profil> {
-        val p1 = Profil(
+    //Replace this with fetch profile
+    private fun createProfils(): ArrayList<Profile> {
+        val p1 = Profile(
             UUID.randomUUID(),
             "Bob",
             18,
@@ -104,7 +170,7 @@ class SwipeFragment : Fragment(), CardStackListener {
             "Student",
             arrayListOf("https://images.unsplash.com/photo-1473398643778-d68e48a374c1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=800&fit=crop&ixid=eyJhcHBfaWQiOjF9")
         )
-        val p2 = Profil(
+        val p2 = Profile(
             UUID.randomUUID(),
             "Alex",
             25,
