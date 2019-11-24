@@ -5,13 +5,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 
 class ProfileFragment : Fragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fetchUserProfile()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+//        Update view here
+//        val profilePicture = view.findViewById<ImageView>(R.id.profilePicture)
+        return view
+    }
+
+    private fun fetchUserProfile() {
+//        We may only need the user picture here
+//        fetch data here
     }
 
     companion object {

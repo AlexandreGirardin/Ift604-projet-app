@@ -1,7 +1,6 @@
 package com.ift604.projectapp
 
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -54,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addTabs(viewPager: ViewPager) {
-        val adapter = CustomPagerAdapter(supportFragmentManager)
+        val adapter = PagerAdapter(supportFragmentManager)
         adapter.addFrag(ProfileFragment.newInstance())
         adapter.addFrag(SwipeFragment.newInstance())
         adapter.addFrag(LikeFragment.newInstance())

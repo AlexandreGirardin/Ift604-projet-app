@@ -21,11 +21,33 @@ class SwipeFragment : Fragment(), CardStackListener {
     private lateinit var cardStackView: CardStackView
     private lateinit var manager: CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
+
     private lateinit var rewindBtn: ImageButton
     private lateinit var skipBtn: ImageButton
     private lateinit var superBtn: ImageButton
     private lateinit var matchBtn: ImageButton
     private lateinit var boostBtn: ImageButton
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        manager = CardStackLayoutManager(activity, this)
+        adapter = CardStackAdapter(fetchProfilesData())
+        setupManager()
+    }
+
+    private fun setupManager() {
+        manager.setStackFrom(StackFrom.None)
+        manager.setVisibleCount(3)
+        manager.setTranslationInterval(8.0f)
+        manager.setScaleInterval(0.95f)
+        manager.setSwipeThreshold(0.3f)
+        manager.setMaxDegree(20.0f)
+        manager.setDirections(Direction.HORIZONTAL)
+        manager.setCanScrollHorizontal(true)
+        manager.setCanScrollVertical(true)
+        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
+        manager.setOverlayInterpolator(LinearInterpolator())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +55,6 @@ class SwipeFragment : Fragment(), CardStackListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_swipe, container, false)
         cardStackView = view.findViewById(R.id.swipeCard)
-        manager = CardStackLayoutManager(activity, this)
-        adapter = CardStackAdapter(createProfils())
         setupCardStackView()
 
         rewindBtn = view.findViewById(R.id.rewindBtn)
@@ -84,17 +104,6 @@ class SwipeFragment : Fragment(), CardStackListener {
     }
 
     private fun setupCardStackView() {
-        manager.setStackFrom(StackFrom.None)
-        manager.setVisibleCount(3)
-        manager.setTranslationInterval(8.0f)
-        manager.setScaleInterval(0.95f)
-        manager.setSwipeThreshold(0.3f)
-        manager.setMaxDegree(20.0f)
-        manager.setDirections(Direction.HORIZONTAL)
-        manager.setCanScrollHorizontal(true)
-        manager.setCanScrollVertical(true)
-        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
-        manager.setOverlayInterpolator(LinearInterpolator())
 
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
@@ -122,6 +131,7 @@ class SwipeFragment : Fragment(), CardStackListener {
             matchBtn.setImageResource(R.drawable.heart)
         }
 
+//      Handle swipe direction here
         when (direction) {
             Direction.Right -> Toast.makeText(this.context, "Match", Toast.LENGTH_SHORT).show()
             Direction.Top -> Toast.makeText(this.context, "Super", Toast.LENGTH_SHORT).show()
@@ -153,7 +163,7 @@ class SwipeFragment : Fragment(), CardStackListener {
 
     private fun paginate() {
         val old = adapter.getProfils()
-        val new = old.plus(createProfils())
+        val new = old.plus(fetchProfilesData())
         val callback = ProfileDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
         adapter.setProfils(new)
@@ -161,7 +171,7 @@ class SwipeFragment : Fragment(), CardStackListener {
     }
 
     //Replace this with fetch profile
-    private fun createProfils(): ArrayList<Profile> {
+    private fun fetchProfilesData(): ArrayList<Profile> {
         val p1 = Profile(
             UUID.randomUUID(),
             "Bob",

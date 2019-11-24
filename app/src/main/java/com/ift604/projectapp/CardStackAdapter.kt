@@ -32,6 +32,7 @@ class CardStackAdapter(
             .into(holder.image)
 
 
+//      handle profile press here
         holder.previous.setOnClickListener { v ->
             Toast.makeText(v.context, "Previous", Toast.LENGTH_SHORT).show()
         }
