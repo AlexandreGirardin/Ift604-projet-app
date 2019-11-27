@@ -60,5 +60,6 @@ class MainActivity : AppCompatActivity() {
         adapter.addFrag(MessageFragment.newInstance())
         viewPager.adapter = adapter
         viewPager.currentItem = 1
+        viewPager.offscreenPageLimit = 3
     }
 }

@@ -104,7 +104,6 @@ class SwipeFragment : Fragment(), CardStackListener {
     }
 
     private fun setupCardStackView() {
-
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator.apply {
@@ -162,23 +161,23 @@ class SwipeFragment : Fragment(), CardStackListener {
     }
 
     private fun paginate() {
-        val old = adapter.getProfils()
+        val old = adapter.getProfiles()
         val new = old.plus(fetchProfilesData())
         val callback = ProfileDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.setProfils(new)
+        adapter.setProfiles(new)
         result.dispatchUpdatesTo(adapter)
     }
 
     //Replace this with fetch profile
-    private fun fetchProfilesData(): ArrayList<Profile> {
+    private fun fetchProfilesData(): List<Profile> {
         val p1 = Profile(
             UUID.randomUUID(),
-            "Bob",
+            "Tyler",
             18,
             5,
             "Student",
-            arrayListOf("https://images.unsplash.com/photo-1473398643778-d68e48a374c1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=800&fit=crop&ixid=eyJhcHBfaWQiOjF9")
+            listOf("https://images.unsplash.com/photo-1473398643778-d68e48a374c1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=800&fit=crop&ixid=eyJhcHBfaWQiOjF9")
         )
         val p2 = Profile(
             UUID.randomUUID(),
@@ -186,8 +185,48 @@ class SwipeFragment : Fragment(), CardStackListener {
             25,
             0,
             "Student",
-            arrayListOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
+            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
         )
-        return arrayListOf(p1, p2)
+        val p3 = Profile(
+            UUID.randomUUID(),
+            "Sam",
+            50,
+            2,
+            "Student",
+            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
+        )
+        val p4 = Profile(
+            UUID.randomUUID(),
+            "Charlie",
+            27,
+            7,
+            "Student",
+            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
+        )
+        val p5 = Profile(
+            UUID.randomUUID(),
+            "Fred",
+            30,
+            20,
+            "Student",
+            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
+        )
+        val p6 = Profile(
+            UUID.randomUUID(),
+            "Dallas",
+            30,
+            20,
+            "Student",
+            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
+        )
+        val p7 = Profile(
+            UUID.randomUUID(),
+            "Riley",
+            30,
+            20,
+            "Student",
+            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
+        )
+        return listOf(p1, p2, p3, p4, p5, p6, p7)
     }
 }

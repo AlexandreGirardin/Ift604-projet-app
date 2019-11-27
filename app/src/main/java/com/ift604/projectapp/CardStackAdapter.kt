@@ -24,9 +24,8 @@ class CardStackAdapter(
         holder.age.text = profil.age.toString()
         holder.work.text = profil.work
         holder.distance.text = "${profil.distance} km away"
-        val picture = "http://s5.favim.com/orig/140716/girl-hair-lips-mouth-Favim.com-1918955.jpg"
         Picasso.get()
-            .load(picture)
+            .load(profil.pictures[0])
             .placeholder(R.drawable.profile_large)
             .error(R.drawable.profile_large)
             .into(holder.image)
@@ -50,11 +49,11 @@ class CardStackAdapter(
         return profiles.size
     }
 
-    fun setProfils(spots: List<Profile>) {
-        this.profiles = spots
+    fun setProfiles(profiles: List<Profile>) {
+        this.profiles = profiles
     }
 
-    fun getProfils(): List<Profile> {
+    fun getProfiles(): List<Profile> {
         return profiles
     }
 
@@ -68,5 +67,4 @@ class CardStackAdapter(
         val next: View = view.findViewById(R.id.next)
         val bio: View = view.findViewById(R.id.bio)
     }
-
 }
