@@ -2,6 +2,7 @@ package com.ift604.projectapp
 
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 
@@ -42,6 +43,30 @@ class MainActivity : AppCompatActivity() {
             toggleButtons(messageBtn, R.drawable.bubble_active)
             viewPager.setCurrentItem(3, true)
         }
+
+        viewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+                if(ViewPager.SCROLL_STATE_IDLE == state){
+                    when(viewPager.currentItem) {
+                        0 -> toggleButtons(profilBtn, R.drawable.profile_active)
+                        1 -> toggleButtons(swipeBtn, R.drawable.flame_active)
+                        2 -> toggleButtons(likeBtn, R.drawable.like_active)
+                        3 -> toggleButtons(messageBtn, R.drawable.bubble_active)
+                    }
+                }
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+            }
+
+        })
     }
 
     private fun toggleButtons(btn: ImageButton, activeSrc: Int) {
