@@ -174,14 +174,21 @@ class SwipeFragment : Fragment(), CardStackListener {
         val p1 = Profile(
             UUID.randomUUID(),
             "Tyler",
+            "tyler@gmail.com",
+            "12345",
             18,
             5,
             "Student",
             listOf("https://images.unsplash.com/photo-1473398643778-d68e48a374c1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=800&fit=crop&ixid=eyJhcHBfaWQiOjF9")
         )
+        ApiClient().doAsyncRegister(p1)
+
+
         val p2 = Profile(
             UUID.randomUUID(),
             "Alex",
+            "alex@gmail.com",
+            "12345",
             25,
             0,
             "Student",
@@ -190,6 +197,8 @@ class SwipeFragment : Fragment(), CardStackListener {
         val p3 = Profile(
             UUID.randomUUID(),
             "Sam",
+            "sam@gmail.com",
+            "12345",
             50,
             2,
             "Student",
@@ -198,6 +207,8 @@ class SwipeFragment : Fragment(), CardStackListener {
         val p4 = Profile(
             UUID.randomUUID(),
             "Charlie",
+            "charlie@gmail.com",
+            "12345",
             27,
             7,
             "Student",
@@ -206,6 +217,8 @@ class SwipeFragment : Fragment(), CardStackListener {
         val p5 = Profile(
             UUID.randomUUID(),
             "Fred",
+            "fred@gmail.com",
+            "12345",
             30,
             20,
             "Student",
@@ -214,6 +227,8 @@ class SwipeFragment : Fragment(), CardStackListener {
         val p6 = Profile(
             UUID.randomUUID(),
             "Dallas",
+            "dallas@gmail.com",
+            "12345",
             30,
             20,
             "Student",
@@ -222,6 +237,8 @@ class SwipeFragment : Fragment(), CardStackListener {
         val p7 = Profile(
             UUID.randomUUID(),
             "Riley",
+            "riley@gmail.com",
+            "12345",
             30,
             20,
             "Student",
