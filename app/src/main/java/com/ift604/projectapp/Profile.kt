@@ -6,6 +6,8 @@ import java.util.*
 class Profile(
     val id: UUID,
     val name: String,
+    val email: String,
+    val password: String,
     val age: Int,
     val distance: Int,
     val work: String,

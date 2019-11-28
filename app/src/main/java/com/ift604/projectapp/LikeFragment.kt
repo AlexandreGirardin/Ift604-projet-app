@@ -37,6 +37,8 @@ class LikeFragment : Fragment() {
         val p1 = Profile(
             UUID.randomUUID(),
             "Tyler",
+            "tyler@gmail.com",
+            "12345",
             18,
             5,
             "Student",
@@ -45,6 +47,8 @@ class LikeFragment : Fragment() {
         val p2 = Profile(
             UUID.randomUUID(),
             "Alex",
+            "alex@gmail.com",
+            "12345",
             25,
             0,
             "Student",
@@ -53,6 +57,8 @@ class LikeFragment : Fragment() {
         val p3 = Profile(
             UUID.randomUUID(),
             "Sam",
+            "sam@gmail.com",
+            "12345",
             50,
             2,
             "Student",
@@ -61,6 +67,8 @@ class LikeFragment : Fragment() {
         val p4 = Profile(
             UUID.randomUUID(),
             "Charlie",
+            "charlie@gmail.com",
+            "12345",
             27,
             7,
             "Student",
@@ -69,6 +77,8 @@ class LikeFragment : Fragment() {
         val p5 = Profile(
             UUID.randomUUID(),
             "Fred",
+            "fred@gmail.com",
+            "12345",
             30,
             20,
             "Student",
@@ -77,6 +87,8 @@ class LikeFragment : Fragment() {
         val p6 = Profile(
             UUID.randomUUID(),
             "Dallas",
+            "dallas@gmail.com",
+            "12345",
             30,
             20,
             "Student",
@@ -85,6 +97,8 @@ class LikeFragment : Fragment() {
         val p7 = Profile(
             UUID.randomUUID(),
             "Riley",
+            "riley@gmail.com",
+            "12345",
             30,
             20,
             "Student",
