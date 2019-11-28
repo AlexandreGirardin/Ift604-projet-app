@@ -16,7 +16,6 @@ class MainLauncher: AppCompatActivity() {
         } else {
             Intent(this, LoginActivity::class.java)
         }
-//        val activityIntent = Intent(this, MainActivity::class.java)
         startActivity(activityIntent)
         finish()
     }
