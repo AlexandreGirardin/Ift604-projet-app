@@ -23,7 +23,7 @@ class LikeAdapter(
         holder.work.text = profile.work
 
         Picasso.get()
-            .load(profile.pictures[0])
+            .load(profile.photo)
             .placeholder(R.drawable.profile_large)
             .error(R.drawable.profile_large)
             .into(holder.image)
