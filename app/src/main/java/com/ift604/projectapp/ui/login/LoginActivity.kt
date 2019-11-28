@@ -1,6 +1,8 @@
 package com.ift604.projectapp.ui.login
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -14,6 +16,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.ift604.projectapp.MainActivity
 
 import com.ift604.projectapp.R
 
@@ -56,11 +59,10 @@ class LoginActivity : AppCompatActivity() {
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
+                startMainActivity(loginResult.success)
             }
             setResult(Activity.RESULT_OK)
 
-            //Complete and destroy login activity once successful
             finish()
         })
 
@@ -97,15 +99,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+    private fun startMainActivity(model: LoggedInUserView) {
+        val sp = getSharedPreferences("SendUdeS", Context.MODE_PRIVATE).edit()
+        sp.putString("token", model.userToken)
+        sp.apply()
+        val activityIntent = Intent(this, MainActivity::class.java)
+        startActivity(activityIntent)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
