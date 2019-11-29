@@ -43,7 +43,7 @@ class SwipeFragment : Fragment(), CardStackListener {
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
-        manager.setSwipeThreshold(0.3f)
+        manager.setSwipeThreshold(0.1f)
         manager.setMaxDegree(20.0f)
         manager.setDirections(Direction.HORIZONTAL)
         manager.setCanScrollHorizontal(true)
@@ -188,7 +188,6 @@ class SwipeFragment : Fragment(), CardStackListener {
         result.dispatchUpdatesTo(adapter)
     }
 
-    //Replace this with fetch profile
     private fun fetchProfilesData(): List<Profile> {
         //ApiClient().doAsyncRegister(p2)
         val apiClient = (activity as MainActivity).apiClient

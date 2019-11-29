@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewPager: ViewPager
+    private lateinit var viewPager: CustomViewPager
     private lateinit var profilBtn: ImageButton
     private lateinit var swipeBtn: ImageButton
     private lateinit var likeBtn: ImageButton
@@ -49,10 +49,22 @@ class MainActivity : AppCompatActivity() {
             override fun onPageScrollStateChanged(state: Int) {
                 if(ViewPager.SCROLL_STATE_IDLE == state){
                     when(viewPager.currentItem) {
-                        0 -> toggleButtons(profilBtn, R.drawable.profile_active)
-                        1 -> toggleButtons(swipeBtn, R.drawable.flame_active)
-                        2 -> toggleButtons(likeBtn, R.drawable.like_active)
-                        3 -> toggleButtons(messageBtn, R.drawable.bubble_active)
+                        0 -> {
+                            viewPager.setPagingEnabled(true)
+                            toggleButtons(profilBtn, R.drawable.profile_active)
+                        }
+                        1 -> {
+                            viewPager.setPagingEnabled(false)
+                            toggleButtons(swipeBtn, R.drawable.flame_active)
+                        }
+                        2 -> {
+                            viewPager.setPagingEnabled(true)
+                            toggleButtons(likeBtn, R.drawable.like_active)
+                        }
+                        3 -> {
+                            viewPager.setPagingEnabled(true)
+                            toggleButtons(messageBtn, R.drawable.bubble_active)
+                        }
                     }
                 }
             }
@@ -91,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         btn.setImageResource(activeSrc)
     }
 
-    private fun addTabs(viewPager: ViewPager) {
+    private fun addTabs(viewPager: CustomViewPager) {
         val adapter = PagerAdapter(supportFragmentManager)
         adapter.addFrag(ProfileFragment.newInstance())
         adapter.addFrag(SwipeFragment.newInstance())
@@ -100,5 +112,6 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = adapter
         viewPager.currentItem = 1
         viewPager.offscreenPageLimit = 3
+        viewPager.setPagingEnabled(false)
     }
 }
