@@ -7,7 +7,7 @@
     tools:context=".SwipeFragment">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/swipeBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -33,6 +33,87 @@
             android:text="There's no one new around you." />
     </LinearLayout>
 
+    <ScrollView
+        android:id="@+id/bioScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/profile_large"
+                tools:src="@tools:sample/avatars"
+                tools:srcCompat="@drawable/profile_large"
+                tools:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/bioName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Name,"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+            <TextView
+                android:id="@+id/bioAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="00"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/bioName"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+            <TextView
+                android:id="@+id/bioText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae suscipit tellus mauris a diam maecenas sed. Massa placerat duis ultricies lacus sed turpis tincidunt id. Mauris nunc congue nisi vitae suscipit tellus mauris a diam. Tristique et egestas quis ipsum suspendisse ultrices. Aenean euismod elementum nisi quis eleifend. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula. Diam quis enim lobortis scelerisque fermentum dui. Tellus elementum sagittis vitae et leo. Leo duis ut diam quam nulla porttitor massa. Ut etiam sit amet nisl purus in mollis. Eget magna fermentum iaculis eu. Sit amet est placerat in egestas. Ac feugiat sed lectus vestibulum mattis ullamcorper.  Turpis tincidunt id aliquet risus feugiat. Sed velit dignissim sodales ut eu sem integer. Eget duis at tellus at urna condimentum mattis. Vivamus at augue eget arcu. Sed enim ut sem viverra aliquet eget sit. Mauris in aliquam sem fringilla ut morbi tincidunt augue interdum. Faucibus vitae aliquet nec ullamcorper sit amet risus. Mollis aliquam ut porttitor leo a diam. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam. Elit at imperdiet dui accumsan sit amet nulla. In iaculis nunc sed augue lacus. Sem viverra aliquet eget sit. Ut tellus elementum sagittis vitae et.  Duis at tellus at urna condimentum mattis pellentesque id nibh. Diam sollicitudin tempor id eu nisl nunc mi ipsum. Quisque non tellus orci ac auctor augue mauris. Elementum curabitur vitae nunc sed velit dignissim sodales. Pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus nisl. Sagittis orci a scelerisque purus semper eget duis. Lorem dolor sed viverra ipsum. Ac tortor dignissim convallis aenean et tortor. Feugiat in fermentum posuere urna nec tincidunt praesent semper. Elementum integer enim neque volutpat ac. Ut diam quam nulla porttitor massa. Eget magna fermentum iaculis eu non diam phasellus vestibulum. Sodales ut etiam sit amet nisl. Sagittis id consectetur purus ut. Ornare arcu odio ut sem. Ut etiam sit amet nisl purus in mollis. Euismod lacinia at quis risus sed. Mi tempus imperdiet nulla malesuada pellentesque elit eget gravida cum. Urna nec tincidunt praesent semper feugiat nibh sed pulvinar. Nunc aliquet bibendum enim facilisis gravida neque convallis."
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bioName" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/showCardBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="15dp"
+                android:clickable="true"
+                android:src="@android:drawable/arrow_down_float"
+                app:layout_constraintBottom_toBottomOf="@id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/swipeCard"
         android:layout_width="match_parent"
@@ -51,7 +132,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/swipeBackground"
         app:layout_constraintEnd_toEndOf="parent">
 
         <Space

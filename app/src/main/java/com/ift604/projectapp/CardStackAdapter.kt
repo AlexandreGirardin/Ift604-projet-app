@@ -3,17 +3,17 @@ package com.ift604.projectapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
 class CardStackAdapter(
     private var profiles: List<Profile> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+    private lateinit var viewParent: ViewGroup
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        viewParent = parent
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(inflater.inflate(R.layout.card_profile, parent, false))
     }
@@ -40,8 +40,15 @@ class CardStackAdapter(
             Toast.makeText(v.context, "Next", Toast.LENGTH_SHORT).show()
         }
 
-        holder.bio.setOnClickListener { v ->
-            Toast.makeText(v.context, "Bio", Toast.LENGTH_SHORT).show()
+        holder.bio.setOnClickListener {v ->
+            val rootView = v.rootView
+            val bioScrollView = rootView.findViewById<ScrollView>(R.id.bioScrollView)
+            val swipeBackground = rootView.findViewById<LinearLayout>(R.id.swipeBackground)
+            val mainMenu = rootView.findViewById<LinearLayout>(R.id.mainMenu)
+            swipeBackground.visibility = View.GONE
+            bioScrollView.visibility = View.VISIBLE
+            viewParent.visibility = View.GONE
+            mainMenu.visibility = View.GONE
         }
     }
 

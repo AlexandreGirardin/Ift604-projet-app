@@ -8,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.yuyakaido.android.cardstackview.*
+import kotlinx.android.synthetic.main.fragment_swipe.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 class SwipeFragment : Fragment(), CardStackListener {
+    private lateinit var bioScrollView: ScrollView
     private lateinit var cardStackView: CardStackView
     private lateinit var manager: CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
@@ -27,6 +27,7 @@ class SwipeFragment : Fragment(), CardStackListener {
     private lateinit var superBtn: ImageButton
     private lateinit var matchBtn: ImageButton
     private lateinit var boostBtn: ImageButton
+    private lateinit var showCardBtn: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +94,22 @@ class SwipeFragment : Fragment(), CardStackListener {
                 .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
+        }
+
+        bioScrollView = view.findViewById(R.id.bioScrollView)
+        bioScrollView.visibility = View.GONE
+
+        showCardBtn = view.findViewById(R.id.showCardBtn)
+        showCardBtn.setOnClickListener{v ->
+            val rootView = v.rootView
+            val bioScrollView = rootView.findViewById<ScrollView>(R.id.bioScrollView)
+            val mainMenu = rootView.findViewById<LinearLayout>(R.id.mainMenu)
+            val cardView = rootView.findViewById<CardStackView>(R.id.swipeCard)
+            val swipeBackground = rootView.findViewById<LinearLayout>(R.id.swipeBackground)
+            bioScrollView.visibility = View.GONE
+            cardView.visibility = View.VISIBLE
+            mainMenu.visibility = View.VISIBLE
+            swipeBackground.visibility = View.VISIBLE
         }
 
         return view
