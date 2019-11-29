@@ -34,7 +34,7 @@ class SwipeFragment : Fragment(), CardStackListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         manager = CardStackLayoutManager(activity, this)
-        adapter = CardStackAdapter(fetchProfilesData())
+        adapter = CardStackAdapter(fetchSwipeableUsers())
         setupManager()
     }
 
@@ -181,22 +181,19 @@ class SwipeFragment : Fragment(), CardStackListener {
 
     private fun paginate() {
         val old = adapter.getProfiles()
-        val new = old.plus(fetchProfilesData())
+        val new = old.plus(fetchSwipeableUsers())
         val callback = ProfileDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
         adapter.setProfiles(new)
         result.dispatchUpdatesTo(adapter)
     }
 
-    private fun fetchProfilesData(): List<Profile> {
-        //ApiClient().doAsyncRegister(p2)
-        val apiClient = (activity as MainActivity).apiClient
-        val jsonArrayOfSwipeables = apiClient.getApiSwipe()
+    private fun fetchSwipeableUsers(): List<Profile> {
+        val jsonArrayOfSwipeables = ApiClient.instance.getApiSwipe()
 
         val gson = GsonBuilder().create()
         val lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()
 
-        println(lSwipeableUsers)
         return lSwipeableUsers
     }
 }

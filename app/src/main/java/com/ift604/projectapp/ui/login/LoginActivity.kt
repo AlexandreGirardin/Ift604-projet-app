@@ -60,10 +60,10 @@ class LoginActivity : AppCompatActivity() {
             }
             if (loginResult.success != null) {
                 startMainActivity(loginResult.success)
+                finish()
             }
-            setResult(Activity.RESULT_OK)
 
-            finish()
+            setResult(Activity.RESULT_OK)
         })
 
         username.afterTextChanged {

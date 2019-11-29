@@ -1,14 +1,13 @@
 package com.ift604.projectapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
-import java.util.*
 
 class MessageFragment : Fragment() {
     private lateinit var newMatchRecyclerView: RecyclerView
@@ -45,8 +44,7 @@ class MessageFragment : Fragment() {
     }
 
     private fun fetchNewMatchesData(): List<Profile> {
-        val apiClient = (activity as MainActivity).apiClient
-        val jsonArrayOfSwipeables = apiClient.getApiSwipe()
+        val jsonArrayOfSwipeables = ApiClient.instance.getApiSwipe()
 
         val gson = GsonBuilder().create()
         val lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()

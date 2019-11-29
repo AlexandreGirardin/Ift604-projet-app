@@ -22,7 +22,7 @@ class NewMatchAdapter(
         holder.name.text = match.name
 
         Picasso.get()
-            .load(match.photo)
+            .load(ApiClient.instance.getUrl() + match.photo)
             .placeholder(R.drawable.profile_large)
             .error(R.drawable.profile_large)
             .into(holder.image)

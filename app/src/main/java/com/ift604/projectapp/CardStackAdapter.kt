@@ -22,10 +22,10 @@ class CardStackAdapter(
         val profil = profiles[position]
         holder.name.text = profil.name
         holder.age.text = profil.age.toString()
-        holder.work.text = profil.work
+        holder.work.text = profil.email         // TODO: Change field for email.
         holder.distance.text = "${profil.distance} km away"
         Picasso.get()
-            .load(profil.photo)
+            .load(ApiClient.instance.getUrl() + profil.photo)
             .placeholder(R.drawable.profile_large)
             .error(R.drawable.profile_large)
             .into(holder.image)

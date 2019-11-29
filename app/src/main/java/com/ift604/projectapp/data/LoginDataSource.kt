@@ -1,5 +1,7 @@
 package com.ift604.projectapp.data
 
+import com.ift604.projectapp.ApiClient
+import com.ift604.projectapp.Profile
 import com.ift604.projectapp.data.model.LoggedInUser
 import java.io.IOException
 
@@ -8,11 +10,18 @@ import java.io.IOException
  */
 class LoginDataSource {
 
+
+
     fun login(username: String, password: String): Result<LoggedInUser> {
         try {
             // TODO: handle loggedInUser authentication
-            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
-            return Result.Success(fakeUser)
+            val user = LoggedInUser(Profile(0, "", username, password, 0, "", "https://source.unsplash.com/HN-5Z6AmxrM/600x800", "", 18), "")
+            val token = ApiClient.instance.postApiLogin(user)
+            user.token = token
+            return if (user.token != "")
+                Result.Success(user)
+            else
+                Result.Error(IOException("Token is empty"))
         } catch (e: Throwable) {
             return Result.Error(IOException("Error logging in", e))
         }

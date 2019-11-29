@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var swipeBtn: ImageButton
     private lateinit var likeBtn: ImageButton
     private lateinit var messageBtn: ImageButton
-    val apiClient = ApiClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,19 +79,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-        apiClient.postApiLogin(Profile(
-            11,
-            "Alex",
-            "alex@gmail.com",
-            "12345",
-            5,
-            "Student",
-            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800"),
-            "https://source.unsplash.com/HN-5Z6AmxrM/600x800",
-            "une bio test",
-            25
-        ))
     }
 
     private fun toggleButtons(btn: ImageButton, activeSrc: Int) {

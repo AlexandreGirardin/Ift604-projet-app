@@ -5,6 +5,7 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.result.getAs
+import com.ift604.projectapp.data.model.LoggedInUser
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.anko.doAsync
 import org.json.JSONArray
@@ -14,9 +15,11 @@ class ApiClient {
 
     private val port = "8899"
     private val url = "http://172.105.99.204:$port"
-    var client = ConnectedUser("", Profile(0, "", "", "", 0, "", listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800"), "", "", 0))
+    private var token = ""
 
-    private companion object {
+    companion object {
+        val instance = ApiClient()
+
         // Possible routes for API
         private const val ROUTE_REGISTER = "/api/register"
         private const val ROUTE_LOGIN = "/api/login"
@@ -24,7 +27,7 @@ class ApiClient {
         private const val ROUTE_USERS = "/api/users"
     }
 
-    fun register(profile: Profile)
+    fun postApiRegister(profile: Profile)
     {
         try {
             doAsync {
@@ -35,47 +38,54 @@ class ApiClient {
                             "\"password\":\"${profile.password}\",\n" +
                             "\"password_confirmation\": \"${profile.password}\"\n" +
                             "}")
-                    .response { result -> println("RESULT: $result")}
+                    .response { result ->
+                        println("RESULT: $result")
+                    }.join()
             }
         } catch (e: Exception) {
             Log.e(e.toString(), e.message!!)
         }
     }
 
-    fun postApiLogin(profile: Profile)
-    {
+    fun postApiLogin(user: LoggedInUser): String {
+        var loginToken = ""
         runBlocking {
-            postLogin(profile)
+            loginToken = postLogin(user.profile.email, user.profile.password)
         }
+
+        return loginToken
     }
 
     fun getApiSwipe(): JSONArray {
         var swipeableUsers = JSONArray()
         runBlocking {
-            if (client.token == "")
-                postLogin(client.profile)
-            swipeableUsers = getSwipeableUsers()
+            if (token != "")
+                swipeableUsers = getSwipeableUsers()
         }
-        //println("APICLIENT: $swipeableUsers")
+
         return swipeableUsers
     }
 
-    private fun postLogin(profile: Profile) {
-        var token = ""
-        Fuel.post(url + ROUTE_LOGIN)
-            .jsonBody(
-                "{\n" +
-                        "\t\"email\" : \"${profile.email}\",\n" +
-                        "\t\"password\" : \"${profile.password}\"\n" +
-                        "}"
-            )
-            .also { println(it.url) }
-            .responseString { result ->
-                val obj = JSONObject(result.get())
-                token = obj.get("access_token") as String
-            }.join()
-        //println("TOKEN: $token, PROFILE: ${profile.name}")
-        client = ConnectedUser(token, profile)
+    private fun postLogin(email: String, password: String): String {
+        try {
+            Fuel.post(url + ROUTE_LOGIN)
+                .jsonBody(
+                    "{\n" +
+                            "\t\"email\" : \"$email\",\n" +
+                            "\t\"password\" : \"$password\"\n" +
+                            "}"
+                )
+                .also { println(it.url) }
+                .responseString { result ->
+                    val obj = JSONObject(result.get())
+                    token = obj.get("access_token") as String
+                }.join()
+
+        } catch (e: Exception) {
+            Log.e(e.toString(), e.message!!)
+        }
+
+        return token
     }
 
     private fun getSwipeableUsers(): JSONArray {
@@ -83,7 +93,7 @@ class ApiClient {
         try {
             Fuel.get(url + ROUTE_SWIPE)
                 .authentication()
-                .bearer(client.token)
+                .bearer(token)
                 .responseString { result ->
                     jsonArray = JSONArray(result.get())
                 }.join()
@@ -91,7 +101,6 @@ class ApiClient {
             Log.e(e.toString(), e.message!!)
         }
 
-        //println("GET - /api/swipe --> $jsonArray")
         return jsonArray
     }
 
@@ -100,7 +109,7 @@ class ApiClient {
         try {
             Fuel.get(url + ROUTE_USERS)
                 .authentication()
-                .bearer(client.token)
+                .bearer(token)
                 .also { println(it.url) }
                 .responseString { result -> println()
                     jsonArray = JSONArray(result.getAs<String>())
@@ -111,6 +120,10 @@ class ApiClient {
 
         println("JSONArray: $jsonArray")
         return jsonArray
+    }
+
+    fun getUrl(): String {
+        return url
     }
 
 
