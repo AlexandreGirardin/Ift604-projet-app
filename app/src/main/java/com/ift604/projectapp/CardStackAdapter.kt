@@ -25,7 +25,7 @@ class CardStackAdapter(
         holder.work.text = profil.work
         holder.distance.text = "${profil.distance} km away"
         Picasso.get()
-            .load(profil.pictures[0])
+            .load(profil.photo)
             .placeholder(R.drawable.profile_large)
             .error(R.drawable.profile_large)
             .into(holder.image)

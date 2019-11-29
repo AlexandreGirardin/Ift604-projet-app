@@ -2,19 +2,21 @@ package com.ift604.projectapp
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.*
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
+import com.google.gson.GsonBuilder
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.android.synthetic.main.fragment_swipe.*
-import java.util.*
-import kotlin.collections.ArrayList
+
 
 class SwipeFragment : Fragment(), CardStackListener {
     private lateinit var bioScrollView: ScrollView
@@ -188,79 +190,14 @@ class SwipeFragment : Fragment(), CardStackListener {
 
     //Replace this with fetch profile
     private fun fetchProfilesData(): List<Profile> {
-        val p1 = Profile(
-            UUID.randomUUID(),
-            "Tyler",
-            "tyler@gmail.com",
-            "12345",
-            18,
-            5,
-            "Student",
-            listOf("https://images.unsplash.com/photo-1473398643778-d68e48a374c1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=800&fit=crop&ixid=eyJhcHBfaWQiOjF9")
-        )
-        ApiClient().doAsyncRegister(p1)
+        //ApiClient().doAsyncRegister(p2)
+        val apiClient = (activity as MainActivity).apiClient
+        val jsonArrayOfSwipeables = apiClient.getApiSwipe()
 
+        val gson = GsonBuilder().create()
+        val lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()
 
-        val p2 = Profile(
-            UUID.randomUUID(),
-            "Alex",
-            "alex@gmail.com",
-            "12345",
-            25,
-            0,
-            "Student",
-            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
-        )
-        val p3 = Profile(
-            UUID.randomUUID(),
-            "Sam",
-            "sam@gmail.com",
-            "12345",
-            50,
-            2,
-            "Student",
-            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
-        )
-        val p4 = Profile(
-            UUID.randomUUID(),
-            "Charlie",
-            "charlie@gmail.com",
-            "12345",
-            27,
-            7,
-            "Student",
-            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
-        )
-        val p5 = Profile(
-            UUID.randomUUID(),
-            "Fred",
-            "fred@gmail.com",
-            "12345",
-            30,
-            20,
-            "Student",
-            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
-        )
-        val p6 = Profile(
-            UUID.randomUUID(),
-            "Dallas",
-            "dallas@gmail.com",
-            "12345",
-            30,
-            20,
-            "Student",
-            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
-        )
-        val p7 = Profile(
-            UUID.randomUUID(),
-            "Riley",
-            "riley@gmail.com",
-            "12345",
-            30,
-            20,
-            "Student",
-            listOf("https://source.unsplash.com/HN-5Z6AmxrM/600x800")
-        )
-        return listOf(p1, p2, p3, p4, p5, p6, p7)
+        println(lSwipeableUsers)
+        return lSwipeableUsers
     }
 }
