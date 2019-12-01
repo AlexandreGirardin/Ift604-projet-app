@@ -24,33 +24,24 @@ class ApiClient {
         private const val ROUTE_REGISTER = "/api/register"
         private const val ROUTE_LOGIN = "/api/login"
         private const val ROUTE_SWIPE = "/api/swipe"
+        private const val ROUTE_LIKE = "api/swipe/like"
         private const val ROUTE_USERS = "/api/users"
     }
 
-    fun postApiRegister(profile: Profile)
-    {
-        try {
-            doAsync {
-                Fuel.post(url + ROUTE_REGISTER)
-                    .jsonBody("{" +
-                            "\"name\": \"${profile.name}\"," +
-                            "\"email\":\"${profile.email}\"," +
-                            "\"password\":\"${profile.password}\",\n" +
-                            "\"password_confirmation\": \"${profile.password}\"\n" +
-                            "}")
-                    .response { result ->
-                        println("RESULT: $result")
-                    }.join()
-            }
-        } catch (e: Exception) {
-            Log.e(e.toString(), e.message!!)
+    /**
+     * Async functions to access used by other classes to make calls to the API.
+     */
+
+    fun postApiRegister(user: String) {
+        runBlocking {
+            //register()
         }
     }
 
     fun postApiLogin(user: LoggedInUser): String {
         var loginToken = ""
         runBlocking {
-            loginToken = postLogin(user.profile.email, user.profile.password)
+            loginToken = login(user.profile.email, user.profile.password)
         }
 
         return loginToken
@@ -66,7 +57,35 @@ class ApiClient {
         return swipeableUsers
     }
 
-    private fun postLogin(email: String, password: String): String {
+    fun postApiLike(userId: Int) {
+        runBlocking {
+            like(userId)
+        }
+    }
+
+    /**
+     * Functions that make the actual calls to the API.
+     */
+
+    fun register(profile: Profile)
+    {
+        try {
+            Fuel.post(url + ROUTE_REGISTER)
+                .jsonBody("{" +
+                        "\"name\": \"${profile.name}\"," +
+                        "\"email\":\"${profile.email}\"," +
+                        "\"password\":\"${profile.password}\",\n" +
+                        "\"password_confirmation\": \"${profile.password}\"\n" +
+                        "}")
+                .response { result ->
+                    println("RESULT: $result")
+                }.join()
+        } catch (e: Exception) {
+            Log.e(e.toString(), e.message!!)
+        }
+    }
+
+    private fun login(email: String, password: String): String {
         try {
             Fuel.post(url + ROUTE_LOGIN)
                 .jsonBody(
@@ -118,9 +137,26 @@ class ApiClient {
             Log.e(e.toString(), e.message!!)
         }
 
-        println("JSONArray: $jsonArray")
         return jsonArray
     }
+
+    private fun like(userId: Int) {
+        try {
+            Fuel.post(url + ROUTE_USERS)
+                .authentication()
+                .bearer(token)
+                .also { println(it.url) }
+                .responseString { result -> println()
+                    jsonArray = JSONArray(result.getAs<String>())
+                }.join()
+        } catch (e: Exception) {
+            Log.e(e.toString(), e.message!!)
+        }
+    }
+
+    /**
+     * Other useful functions.
+     */
 
     fun getUrl(): String {
         return url
