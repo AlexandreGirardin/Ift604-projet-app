@@ -16,6 +16,7 @@ class ApiClient {
     private val port = "8899"
     private val url = "http://172.105.99.204:$port"
     private var token = ""
+    var loggedInUser: LoggedInUser? = null
 
     companion object {
         val instance = ApiClient()
@@ -43,6 +44,9 @@ class ApiClient {
         runBlocking {
             loginToken = login(user.profile.email, user.profile.password)
         }
+
+        if (loginToken != "")
+            loggedInUser = user
 
         return loginToken
     }

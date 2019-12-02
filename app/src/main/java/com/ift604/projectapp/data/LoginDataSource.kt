@@ -32,8 +32,11 @@ class LoginDataSource {
             val user = LoggedInUser(profile, "")
             val token = ApiClient.instance.postApiLogin(user)
             user.token = token
+            println((ApiClient.instance.loggedInUser)?.profile?.age)
             return if (user.token != "")
+            {
                 Result.Success(user)
+            }
             else
                 Result.Error(IOException("Token is empty"))
         } catch (e: Throwable) {
