@@ -22,7 +22,7 @@ class MessageAdapter(
         holder.name.text = match.name
         holder.preview.text = "Netflix and chill?"
         Picasso.get()
-            .load(ApiClient.instance.getUrl() + match.photo)
+            .load(ApiClient.getUrl() + match.photo)
             .placeholder(R.drawable.profile_large)
             .error(R.drawable.profile_large)
             .into(holder.image)

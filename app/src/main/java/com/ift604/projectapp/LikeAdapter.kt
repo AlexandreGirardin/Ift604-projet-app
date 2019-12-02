@@ -22,7 +22,7 @@ class LikeAdapter(
         holder.name.text = "${profile.name}, ${profile.age}"
 
         Picasso.get()
-            .load(ApiClient.instance.getUrl() + profile.photo)
+            .load(ApiClient.getUrl() + profile.photo)
             .placeholder(R.drawable.profile_large)
             .error(R.drawable.profile_large)
             .into(holder.image)

@@ -27,12 +27,12 @@ class LoginDataSource {
                 Random.nextInt(18, 99)
             )
 
-            ApiClient.instance.postApiRegister(profile)
+            ApiClient.postApiRegister(profile)
 
             val user = LoggedInUser(profile, "")
-            val token = ApiClient.instance.postApiLogin(user)
+            val token = ApiClient.postApiLogin(user)
             user.token = token
-            println((ApiClient.instance.loggedInUser)?.profile?.age)
+            println((ApiClient.loggedInUser)?.profile?.age)
             return if (user.token != "")
             {
                 Result.Success(user)

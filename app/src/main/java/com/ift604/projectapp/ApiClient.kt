@@ -11,23 +11,19 @@ import org.jetbrains.anko.doAsync
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ApiClient {
+object ApiClient {
 
     private val port = "8899"
     private val url = "http://172.105.99.204:$port"
     private var token = ""
     var loggedInUser: LoggedInUser? = null
 
-    companion object {
-        val instance = ApiClient()
-
-        // Possible routes for API
-        private const val ROUTE_REGISTER = "/api/register"
-        private const val ROUTE_LOGIN = "/api/login"
-        private const val ROUTE_SWIPE = "/api/swipe"
-        private const val ROUTE_LIKE = "api/swipe/like"
-        private const val ROUTE_USERS = "/api/users"
-    }
+    // Possible routes for API
+    private const val ROUTE_REGISTER = "/api/register"
+    private const val ROUTE_LOGIN = "/api/login"
+    private const val ROUTE_SWIPE = "/api/swipe"
+    private const val ROUTE_LIKE = "api/swipe/like"
+    private const val ROUTE_USERS = "/api/users"
 
     /**
      * Async functions to access used by other classes to make calls to the API.

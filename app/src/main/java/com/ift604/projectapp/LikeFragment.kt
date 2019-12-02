@@ -34,7 +34,7 @@ class LikeFragment : Fragment() {
     }
 
     private fun fetchLikeProfile(): List<Profile> {
-        val jsonArrayOfSwipeables = ApiClient.instance.getApiSwipe()
+        val jsonArrayOfSwipeables = ApiClient.getApiSwipe()
 
         val gson = GsonBuilder().create()
         val lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()

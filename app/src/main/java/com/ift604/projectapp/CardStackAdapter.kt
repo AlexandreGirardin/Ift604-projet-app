@@ -25,7 +25,7 @@ class CardStackAdapter(
         holder.work.text = profil.email         // TODO: Change field for email.
         holder.distance.text = "${profil.distance} km away"
         Picasso.get()
-            .load(ApiClient.instance.getUrl() + profil.photo)
+            .load(ApiClient.getUrl() + profil.photo)
             .placeholder(R.drawable.profile_large)
             .error(R.drawable.profile_large)
             .into(holder.image)
