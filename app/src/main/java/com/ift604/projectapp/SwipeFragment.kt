@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.GsonBuilder
+import com.squareup.picasso.Picasso
 import com.yuyakaido.android.cardstackview.*
 
 
@@ -172,6 +173,23 @@ class SwipeFragment : Fragment(), CardStackListener {
     override fun onCardAppeared(view: View, position: Int) {
         val textView = view.findViewById<TextView>(R.id.name)
         Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}")
+
+        val rootView = view.rootView
+        val bioName = rootView.findViewById<TextView>(R.id.bioName)
+        val bioAge = rootView.findViewById<TextView>(R.id.bioAge)
+        val bioText = rootView.findViewById<TextView>(R.id.bioText)
+        val bioPicture = rootView.findViewById<ImageView>(R.id.bioPicture)
+        val profile = adapter.getProfiles()[position]
+
+        bioName.text = profile.name
+        bioAge.text = profile.age.toString()
+        bioText.text = profile.bio
+        Picasso.get()
+            .load(ApiClient.getUrl() + profile.photo)
+            .placeholder(R.drawable.profile_large)
+            .error(R.drawable.profile_large)
+            .into(bioPicture)
+
         skipBtn.setImageResource(R.drawable.cross_active)
         superBtn.setImageResource(R.drawable.star_active)
         matchBtn.setImageResource(R.drawable.heart_active)
