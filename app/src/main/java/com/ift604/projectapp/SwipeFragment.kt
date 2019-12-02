@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.GsonBuilder
 import com.yuyakaido.android.cardstackview.*
+import kotlinx.android.synthetic.main.activity_login.*
 
 
 class SwipeFragment : Fragment(), CardStackListener {
@@ -152,8 +153,16 @@ class SwipeFragment : Fragment(), CardStackListener {
 //      Handle swipe direction here
         when (direction) {
             Direction.Right -> {
-                //ApiClient.instance.postApiLike(manager.topPosition)
-                Toast.makeText(this.context, "Like", Toast.LENGTH_SHORT).show()
+                val topCardId = manager.topPosition - 1
+                val userId = adapter.getProfiles()[topCardId].id
+                if (userId != null)
+                {
+                    ApiClient.instance.postApiLike(userId)
+                    Toast.makeText(this.context, "Like", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(this.context, "No userId provided (LIKE)", Toast.LENGTH_SHORT).show()
+                }
             }
             Direction.Top -> Toast.makeText(this.context, "Super", Toast.LENGTH_SHORT).show()
             Direction.Left -> Toast.makeText(this.context, "Skip", Toast.LENGTH_SHORT).show()

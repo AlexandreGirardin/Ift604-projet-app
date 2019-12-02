@@ -79,6 +79,7 @@ object ApiClient {
                         "\"password\":\"${profile.password}\",\n" +
                         "\"password_confirmation\": \"${profile.password}\"\n" +
                         "}")
+                .also { println(it.url) }
                 .response { result -> }.join()
         } catch (e: Exception) {
             Log.e(e.toString(), e.message!!)
@@ -113,6 +114,7 @@ object ApiClient {
             Fuel.get(url + ROUTE_SWIPE)
                 .authentication()
                 .bearer(token)
+                .also { println(it.url) }
                 .responseString { result ->
                     jsonArray = JSONArray(result.get())
                 }.join()
@@ -141,17 +143,20 @@ object ApiClient {
     }
 
     private fun like(userId: Int) {
-        /*try {
+        try {
             Fuel.post(url + ROUTE_LIKE)
                 .authentication()
                 .bearer(token)
-                .also { println(it.url) }
-                .responseString { result -> println()
-                    jsonArray = JSONArray(result.getAs<String>())
-                }.join()
+                .jsonBody(
+                    "{\n" +
+                            "\t\"userId\" : $userId,\n" +
+                            "}"
+                )
+                .also { println("${it.url}, USER_ID: $userId") }
+                .responseString { result -> }.join()
         } catch (e: Exception) {
             Log.e(e.toString(), e.message!!)
-        }*/
+        }
     }
 
     /**

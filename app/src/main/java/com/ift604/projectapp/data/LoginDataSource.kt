@@ -32,7 +32,6 @@ class LoginDataSource {
             val user = LoggedInUser(profile, "")
             val token = ApiClient.postApiLogin(user)
             user.token = token
-            println((ApiClient.loggedInUser)?.profile?.age)
             return if (user.token != "")
             {
                 Result.Success(user)
