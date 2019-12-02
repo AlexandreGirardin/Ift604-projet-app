@@ -16,7 +16,7 @@ class LoginDataSource {
 
     fun login(username: String, password: String): Result<LoggedInUser> {
         try {
-            val profile = Profile(
+            ApiClient.postApiRegister(Profile(
                 null,
                 dg.generateName(),
                 username,
@@ -25,17 +25,11 @@ class LoginDataSource {
                 "",
                 dg.generateBio(),
                 Random.nextInt(18, 99)
-            )
+            ))
 
-            ApiClient.postApiRegister(profile)
-
-            val user = LoggedInUser(profile, "")
-            val token = ApiClient.postApiLogin(user)
-            user.token = token
-            return if (user.token != "")
-            {
-                Result.Success(user)
-            }
+            val loggedInUser = ApiClient.postApiLogin(username, password)
+            return if (loggedInUser.token != "")
+                Result.Success(loggedInUser)
             else
                 Result.Error(IOException("Token is empty"))
         } catch (e: Throwable) {

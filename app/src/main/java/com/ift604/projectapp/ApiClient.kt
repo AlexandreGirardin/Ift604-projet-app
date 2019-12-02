@@ -15,14 +15,13 @@ object ApiClient {
 
     private val port = "8899"
     private val url = "http://172.105.99.204:$port"
-    private var token = ""
-    var loggedInUser: LoggedInUser? = null
+    lateinit var loggedInUser: LoggedInUser
 
     // Possible routes for API
     private const val ROUTE_REGISTER = "/api/register"
     private const val ROUTE_LOGIN = "/api/login"
     private const val ROUTE_SWIPE = "/api/swipe"
-    private const val ROUTE_LIKE = "api/swipe/like"
+    private const val ROUTE_LIKE = "/api/swipe/like"
     private const val ROUTE_USERS = "/api/users"
 
     /**
@@ -35,22 +34,18 @@ object ApiClient {
         }
     }
 
-    fun postApiLogin(user: LoggedInUser): String {
-        var loginToken = ""
+    fun postApiLogin(email: String, password: String): LoggedInUser {
         runBlocking {
-            loginToken = login(user.profile.email, user.profile.password)
+            loggedInUser = login(email, password)
         }
 
-        if (loginToken != "")
-            loggedInUser = user
-
-        return loginToken
+        return loggedInUser
     }
 
     fun getApiSwipe(): JSONArray {
         var swipeableUsers = JSONArray()
         runBlocking {
-            if (token != "")
+            if (loggedInUser.token != "")
                 swipeableUsers = getSwipeableUsers()
         }
 
@@ -86,7 +81,9 @@ object ApiClient {
         }
     }
 
-    private fun login(email: String, password: String): String {
+    private fun login(email: String, password: String): LoggedInUser {
+        var token = ""
+        var profile = Profile()
         try {
             Fuel.post(url + ROUTE_LOGIN)
                 .jsonBody(
@@ -99,13 +96,16 @@ object ApiClient {
                 .responseString { result ->
                     val obj = JSONObject(result.get())
                     token = obj.get("access_token") as String
+                    profile = Profile(obj.getJSONObject("user"))
+                    profile.email = email
+                    profile.password = password
                 }.join()
 
         } catch (e: Exception) {
             Log.e(e.toString(), e.message!!)
         }
 
-        return token
+        return LoggedInUser(profile, token)
     }
 
     private fun getSwipeableUsers(): JSONArray {
@@ -113,7 +113,7 @@ object ApiClient {
         try {
             Fuel.get(url + ROUTE_SWIPE)
                 .authentication()
-                .bearer(token)
+                .bearer(loggedInUser.token)
                 .also { println(it.url) }
                 .responseString { result ->
                     jsonArray = JSONArray(result.get())
@@ -130,7 +130,7 @@ object ApiClient {
         try {
             Fuel.get(url + ROUTE_USERS)
                 .authentication()
-                .bearer(token)
+                .bearer(loggedInUser.token)
                 .also { println(it.url) }
                 .responseString { result -> println()
                     jsonArray = JSONArray(result.getAs<String>())
@@ -146,7 +146,7 @@ object ApiClient {
         try {
             Fuel.post(url + ROUTE_LIKE)
                 .authentication()
-                .bearer(token)
+                .bearer(loggedInUser.token)
                 .jsonBody(
                     "{\n" +
                             "\t\"userId\" : $userId,\n" +

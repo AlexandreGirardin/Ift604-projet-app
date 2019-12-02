@@ -153,12 +153,13 @@ class SwipeFragment : Fragment(), CardStackListener {
 
 //      Handle swipe direction here
         when (direction) {
+
             Direction.Right -> {
                 val topCardId = manager.topPosition - 1
                 val userId = adapter.getProfiles()[topCardId].id
                 if (userId != null)
                 {
-                    ApiClient.instance.postApiLike(userId)
+                    ApiClient.postApiLike(userId)
                     Toast.makeText(this.context, "Like", Toast.LENGTH_SHORT).show()
                 }
                 else {
