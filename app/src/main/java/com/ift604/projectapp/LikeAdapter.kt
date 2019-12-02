@@ -20,7 +20,6 @@ class LikeAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val profile = profiles[position]
         holder.name.text = "${profile.name}, ${profile.age}"
-        holder.work.text = profile.work
 
         Picasso.get()
             .load(ApiClient.instance.getUrl() + profile.photo)

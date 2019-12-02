@@ -32,9 +32,9 @@ class ApiClient {
      * Async functions to access used by other classes to make calls to the API.
      */
 
-    fun postApiRegister(user: String) {
+    fun postApiRegister(profile: Profile) {
         runBlocking {
-            //register()
+            register(profile)
         }
     }
 
@@ -67,19 +67,19 @@ class ApiClient {
      * Functions that make the actual calls to the API.
      */
 
-    fun register(profile: Profile)
+    private fun register(profile: Profile)
     {
         try {
             Fuel.post(url + ROUTE_REGISTER)
                 .jsonBody("{" +
                         "\"name\": \"${profile.name}\"," +
                         "\"email\":\"${profile.email}\"," +
+                        "\"age\": \"${profile.age}\"," +
+                        "\"bio\": \"${profile.bio}\"," +
                         "\"password\":\"${profile.password}\",\n" +
                         "\"password_confirmation\": \"${profile.password}\"\n" +
                         "}")
-                .response { result ->
-                    println("RESULT: $result")
-                }.join()
+                .response { result -> }.join()
         } catch (e: Exception) {
             Log.e(e.toString(), e.message!!)
         }
@@ -141,8 +141,8 @@ class ApiClient {
     }
 
     private fun like(userId: Int) {
-        try {
-            Fuel.post(url + ROUTE_USERS)
+        /*try {
+            Fuel.post(url + ROUTE_LIKE)
                 .authentication()
                 .bearer(token)
                 .also { println(it.url) }
@@ -151,7 +151,7 @@ class ApiClient {
                 }.join()
         } catch (e: Exception) {
             Log.e(e.toString(), e.message!!)
-        }
+        }*/
     }
 
     /**

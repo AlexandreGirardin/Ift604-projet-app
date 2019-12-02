@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.ift604.projectapp.MainActivity
+import com.ift604.projectapp.Profile
 
 import com.ift604.projectapp.R
 
@@ -29,6 +30,13 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_login)
 
+
+        /**
+         * TODO: Créer les éléments suivants lors du register
+         *      - Un nom
+         *      - Une bio
+         *      - L'âge
+         */
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
@@ -84,10 +92,7 @@ class LoginActivity : AppCompatActivity() {
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
+                        loginViewModel.login(username.text.toString(), password.text.toString())
                 }
                 false
             }

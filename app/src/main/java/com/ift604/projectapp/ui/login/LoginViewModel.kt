@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import com.ift604.projectapp.Profile
 import com.ift604.projectapp.data.LoginRepository
 import com.ift604.projectapp.data.Result
 

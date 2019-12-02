@@ -1,5 +1,6 @@
 package com.ift604.projectapp.data
 
+import com.ift604.projectapp.Profile
 import com.ift604.projectapp.data.model.LoggedInUser
 
 /**

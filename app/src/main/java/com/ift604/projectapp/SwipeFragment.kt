@@ -151,7 +151,10 @@ class SwipeFragment : Fragment(), CardStackListener {
 
 //      Handle swipe direction here
         when (direction) {
-            Direction.Right -> Toast.makeText(this.context, "Match", Toast.LENGTH_SHORT).show()
+            Direction.Right -> {
+                //ApiClient.instance.postApiLike(manager.topPosition)
+                Toast.makeText(this.context, "Like", Toast.LENGTH_SHORT).show()
+            }
             Direction.Top -> Toast.makeText(this.context, "Super", Toast.LENGTH_SHORT).show()
             Direction.Left -> Toast.makeText(this.context, "Skip", Toast.LENGTH_SHORT).show()
             Direction.Bottom -> Toast.makeText(this.context, "Cancel", Toast.LENGTH_SHORT).show()
