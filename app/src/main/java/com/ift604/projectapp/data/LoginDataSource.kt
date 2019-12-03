@@ -1,13 +1,12 @@
 package com.ift604.projectapp.data
 
-import android.location.Location
-import android.location.LocationProvider
 import com.ift604.projectapp.ApiClient
 import com.ift604.projectapp.DataGenerator
 import com.ift604.projectapp.Profile
 import com.ift604.projectapp.data.model.LoggedInUser
 import java.io.IOException
 import kotlin.random.Random
+
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
@@ -29,6 +28,7 @@ class LoginDataSource {
                 username,
                 password,
                 0,
+                "",
                 arrayListOf(latitude, longitude),
                 "",
                 dg.generateBio(),

@@ -1,6 +1,7 @@
 package com.ift604.projectapp
 
 import org.json.JSONObject
+import kotlin.collections.ArrayList
 
 class Profile {
     var id: Int? = null

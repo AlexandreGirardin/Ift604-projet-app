@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,16 +16,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.ift604.projectapp.MainActivity
 
 import com.ift604.projectapp.R
+import java.util.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -44,6 +44,13 @@ class LoginActivity : AppCompatActivity() {
 
         var latitude = 0.0
         var longitude = 0.0
+        var city = ""
+
+        val username = findViewById<EditText>(R.id.username)
+        val password = findViewById<EditText>(R.id.password)
+        val login = findViewById<Button>(R.id.login)
+        val loading = findViewById<ProgressBar>(R.id.loading)
+        val tvCity = findViewById<TextView>(R.id.tvCity)
 
         fusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
             val location: Location? = task.result
@@ -51,13 +58,14 @@ class LoginActivity : AppCompatActivity() {
                 latitude = location.latitude
                 longitude = location.longitude
                 println("LATITUDE: ${location.latitude}, LONGITUDE: ${location.longitude}")
+
+                val geocoder = Geocoder(this, Locale.getDefault())
+                val addresses: List<Address> =
+                    geocoder.getFromLocation(latitude, longitude, 1)
+                city = addresses[0].getAddressLine(0)
+                tvCity.text = city
             }
         }
-
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
 
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
