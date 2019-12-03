@@ -70,6 +70,8 @@ object ApiClient {
                         "\"email\":\"${profile.email}\"," +
                         "\"age\": \"${profile.age}\"," +
                         "\"bio\": \"${profile.bio}\"," +
+                        "\"latitude\": ${profile.position[0]}," +
+                        "\"longitude\": ${profile.position[1]}," +
                         "\"password\":\"${profile.password}\",\n" +
                         "\"password_confirmation\": \"${profile.password}\"\n" +
                         "}")

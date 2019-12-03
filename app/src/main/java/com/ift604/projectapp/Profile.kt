@@ -8,6 +8,7 @@ class Profile {
     var email: String = ""
     var password: String = ""
     var distance: Int = 0
+    var position: ArrayList<Double> = arrayListOf(0.0, 0.0)
     var photo: String = ""
     var bio: String = ""
     var age: Int = 18
@@ -21,6 +22,7 @@ class Profile {
         pEmail: String,
         pPassword: String,
         pDistance: Int,
+        pPosition: ArrayList<Double>,
         pPhoto: String,
         pBio: String,
         pAge: Int)
@@ -30,12 +32,14 @@ class Profile {
         email = pEmail
         password = pPassword
         distance = pDistance
+        position = pPosition
         photo = pPhoto
         bio = pBio
         age = pAge
     }
 
     constructor(obj: JSONObject) {
+        // TODO: Ajouter la longitude et latitude???
         id = obj.getInt("id")
         name = obj.getString("name")
         photo = obj.getString("photo")

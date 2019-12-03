@@ -3,6 +3,7 @@ package com.ift604.projectapp.ui.login
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,10 +18,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.ift604.projectapp.MainActivity
-import com.ift604.projectapp.Profile
 
 import com.ift604.projectapp.R
 
@@ -35,12 +36,23 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        //println("TEST: ${fusedLocationClient.lastLocation.result}")
 
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 0x0)
+        }
 
+        var latitude = 0.0
+        var longitude = 0.0
+
+        fusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+            val location: Location? = task.result
+            if (location != null) {
+                latitude = location.latitude
+                longitude = location.longitude
+                println("LATITUDE: ${location.latitude}, LONGITUDE: ${location.longitude}")
             }
+        }
 
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
@@ -97,14 +109,18 @@ class LoginActivity : AppCompatActivity() {
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(username.text.toString(), password.text.toString())
+                        loginViewModel.login(username.text.toString(), password.text.toString(),
+                            latitude, longitude
+                        )
                 }
                 false
             }
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginViewModel.login(username.text.toString(), password.text.toString(),
+                    latitude, longitude
+                )
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.ift604.projectapp.data
 
-import com.ift604.projectapp.Profile
 import com.ift604.projectapp.data.model.LoggedInUser
 
 /**
@@ -28,9 +27,14 @@ class LoginRepository(val dataSource: LoginDataSource) {
         dataSource.logout()
     }
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
+    fun login(
+        username: String,
+        password: String,
+        latitude: Double,
+        longitude: Double
+    ): Result<LoggedInUser> {
         // handle login
-        val result = dataSource.login(username, password)
+        val result = dataSource.login(username, password, latitude, longitude)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)
