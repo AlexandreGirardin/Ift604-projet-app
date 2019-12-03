@@ -28,6 +28,7 @@ class LoginDataSource {
                 dg.generateName(),
                 username,
                 password,
+                0,
                 arrayListOf(latitude, longitude),
                 "",
                 dg.generateBio(),
