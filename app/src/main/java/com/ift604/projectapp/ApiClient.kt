@@ -21,7 +21,6 @@ object ApiClient {
     private const val ROUTE_REGISTER = "/api/register"
     private const val ROUTE_LOGIN = "/api/login"
     private const val ROUTE_SWIPE = "/api/swipe"
-    private const val ROUTE_LIKE = "/api/swipe/like"
     private const val ROUTE_USERS = "/api/users"
 
     /**
@@ -144,14 +143,10 @@ object ApiClient {
 
     private fun like(userId: Int) {
         try {
-            Fuel.post(url + ROUTE_LIKE)
+            Fuel.post(url + ROUTE_SWIPE)
                 .authentication()
                 .bearer(loggedInUser.token)
-                .jsonBody(
-                    "{\n" +
-                            "\t\"userId\" : $userId,\n" +
-                            "}"
-                )
+                .jsonBody("{\"user_id\": $userId}")
                 .also { println("${it.url}, USER_ID: $userId") }
                 .responseString { result -> }.join()
         } catch (e: Exception) {

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.android.synthetic.main.activity_login.*
 
 
 class SwipeFragment : Fragment(), CardStackListener {
@@ -223,8 +222,7 @@ class SwipeFragment : Fragment(), CardStackListener {
         val jsonArrayOfSwipeables = ApiClient.getApiSwipe()
 
         val gson = GsonBuilder().create()
-        val lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()
 
-        return lSwipeableUsers
+        return gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()
     }
 }

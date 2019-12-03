@@ -3,6 +3,7 @@ package com.ift604.projectapp.ui.login
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -16,6 +17,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.ift604.projectapp.MainActivity
 import com.ift604.projectapp.Profile
 
@@ -24,19 +27,21 @@ import com.ift604.projectapp.R
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        //println("TEST: ${fusedLocationClient.lastLocation.result}")
 
-        /**
-         * TODO: Créer les éléments suivants lors du register
-         *      - Un nom
-         *      - Une bio
-         *      - L'âge
-         */
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location : Location? ->
+
+            }
+
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
