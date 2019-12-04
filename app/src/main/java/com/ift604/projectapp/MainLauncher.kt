@@ -14,6 +14,9 @@ class MainLauncher: AppCompatActivity() {
 
         val sp = getSharedPreferences("SendUdeS", Context.MODE_PRIVATE)
 
+        val intent = Intent(this, LikeService::class.java)
+        startService(intent)
+
         // TODO: ONLY FOR TESTING LOGIN
         sp.edit().putString("token", null).apply()
 

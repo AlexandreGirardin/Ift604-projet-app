@@ -1,9 +1,15 @@
 package com.ift604.projectapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.viewpager.widget.ViewPager
 
 
@@ -79,6 +85,32 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        /*val builder = NotificationCompat.Builder(this, "test")
+            .setSmallIcon(R.drawable.heart_active)
+            .setContentTitle("You've got a new match!")
+            .setContentText("Much longer text that cannot fit one line...")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("Much longer text that cannot fit one line..."))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel("test", "channel name", NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = "channel description"
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        with(NotificationManagerCompat.from(this)) {
+            // notificationId is a unique int for each notification that you must define
+            notify(1, builder.build())
+        }*/
     }
 
     private fun toggleButtons(btn: ImageButton, activeSrc: Int) {
