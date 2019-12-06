@@ -37,63 +37,41 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var profilePic: File = File("")
+    private var latitude = 0.0
+    private var longitude = 0.0
+    private var city = ""
+
+    private lateinit var tvCity: TextView
+    private lateinit var username: EditText
+    private lateinit var password: EditText
+    private lateinit var login: Button
+    private lateinit var loading: ProgressBar
+    private lateinit var profilePicBtn: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0x0)
-        }
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0x0)
-        }
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 0x0)
-        }
-
-        val intent = Intent(this, LikeService::class.java)
-        startService(intent)
+        if(locationPermissionIsGranted())
+            getLocationInformations()
 
         setContentView(R.layout.activity_login)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        var latitude = 0.0
-        var longitude = 0.0
-        var city = ""
-
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
-        val tvCity = findViewById<TextView>(R.id.tvCity)
-        val profilePicBtn = findViewById<Button>(R.id.profilePicBtn)
-
-        fusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-            val location: Location? = task.result
-            if (location != null) {
-                latitude = location.latitude
-                longitude = location.longitude
-                println("LATITUDE: ${location.latitude}, LONGITUDE: ${location.longitude}")
-
-                val geocoder = Geocoder(this, Locale.getDefault())
-                val addresses: List<Address> =
-                    geocoder.getFromLocation(latitude, longitude, 1)
-                city = addresses[0].getAddressLine(0)
-                tvCity.text = city
-            }
-        }
+        username = findViewById(R.id.username)
+        password = findViewById(R.id.password)
+        login = findViewById(R.id.login)
+        loading = findViewById(R.id.loading)
+        profilePicBtn = findViewById(R.id.profilePicBtn)
+        tvCity = findViewById(R.id.tvCity)
 
         if (city == "")
-            tvCity.text = "Position introuvable"
+            tvCity.text = ""
+        else
+            tvCity.text = city
 
         profilePicBtn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_MIME_TYPES, arrayListOf("image/jpeg", "image/png"))
-            startActivityForResult(intent, 1)
+            if (externalStoragePermissionIsGranted())
+                chooseProfilePicture()
         }
 
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
@@ -163,6 +141,72 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    private fun locationPermissionIsGranted(): Boolean {
+        return if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            false;
+        } else
+            true;
+    }
+
+    private fun externalStoragePermissionIsGranted(): Boolean {
+        return if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 2)
+            false
+        } else
+            true
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode) {
+            1 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                        getLocationInformations()
+                } else
+                    println("Permission Denied for location.")
+                return
+            }
+            2 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                        chooseProfilePicture()
+                } else
+                    println("Permission Denied for external storage")
+                return
+            }
+        }
+    }
+
+    private fun getLocationInformations() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        fusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+            val location: Location? = task.result
+            if (location != null) {
+                latitude = location.latitude
+                longitude = location.longitude
+
+                val geocoder = Geocoder(this, Locale.getDefault())
+                val addresses: List<Address> =
+                    geocoder.getFromLocation(latitude, longitude, 1)
+                city = addresses[0].getAddressLine(0)
+                tvCity.text = city
+            }
+        }
+    }
+
+    private fun chooseProfilePicture() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, arrayListOf("image/jpeg", "image/png"))
+        startActivityForResult(intent, 1)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK)
         {
@@ -194,6 +238,7 @@ class LoginActivity : AppCompatActivity() {
         val sp = getSharedPreferences("SendUdeS", Context.MODE_PRIVATE).edit()
         sp.putString("token", model.userToken)
         sp.apply()
+
         val activityIntent = Intent(this, MainActivity::class.java)
         startActivity(activityIntent)
     }

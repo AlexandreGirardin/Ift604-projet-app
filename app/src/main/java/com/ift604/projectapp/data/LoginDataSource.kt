@@ -37,7 +37,7 @@ class LoginDataSource {
             ))
 
             val loggedInUser = ApiClient.postApiLogin(username, password)
-            return if (loggedInUser.token != "")
+            return if (loggedInUser!!.token != "")
                 Result.Success(loggedInUser)
             else
                 Result.Error(IOException("Token is empty"))
@@ -47,7 +47,7 @@ class LoginDataSource {
     }
 
     fun logout() {
-        // TODO: revoke authentication
+        ApiClient.logout()
     }
 }
 

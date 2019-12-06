@@ -32,20 +32,18 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        val profile = ApiClient.loggedInUser.profile
+        val profile = ApiClient.loggedInUser!!.profile
 
         val profileName = view.findViewById<TextView>(R.id.profileName)
         val profilePicture = view.findViewById<ImageView>(R.id.profilePicture)
 
-        if (profile != null) {
-            profileName.text = "${profile.name}, ${profile.age}"
-            profilePicture.setImageURI(profile.photo.toUri())
-            Picasso.get()
-                .load(ApiClient.getUrl() + profile.photo)
-                .placeholder(R.drawable.profile_large)
-                .error(R.drawable.profile_large)
-                .into(profilePicture)
-        }
+        profileName.text = "${profile.name}, ${profile.age}"
+        profilePicture.setImageURI(profile.photo.toUri())
+        Picasso.get()
+            .load(ApiClient.getUrl() + profile.photo)
+            .placeholder(R.drawable.profile_large)
+            .error(R.drawable.profile_large)
+            .into(profilePicture)
 
         settingsBtn = view.findViewById(R.id.settingsBtn)
         settingsBtn.setOnClickListener {

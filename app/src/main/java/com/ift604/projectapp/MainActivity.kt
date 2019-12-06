@@ -3,6 +3,7 @@ package com.ift604.projectapp
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.ImageButton
@@ -85,32 +86,16 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
 
-        /*val builder = NotificationCompat.Builder(this, "test")
-            .setSmallIcon(R.drawable.heart_active)
-            .setContentTitle("You've got a new match!")
-            .setContentText("Much longer text that cannot fit one line...")
-            .setStyle(NotificationCompat.BigTextStyle()
-                .bigText("Much longer text that cannot fit one line..."))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
+    private fun startService() {
+        val intent = Intent(this, LikeService::class.java)
+        startService(intent)
+    }
 
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel("test", "channel name", NotificationManager.IMPORTANCE_DEFAULT).apply {
-                description = "channel description"
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        with(NotificationManagerCompat.from(this)) {
-            // notificationId is a unique int for each notification that you must define
-            notify(1, builder.build())
-        }*/
+    private fun stopService() {
+        val intent = Intent(this, LikeService::class.java)
+        stopService(intent)
     }
 
     private fun toggleButtons(btn: ImageButton, activeSrc: Int) {
@@ -131,5 +116,20 @@ class MainActivity : AppCompatActivity() {
         viewPager.currentItem = 1
         viewPager.offscreenPageLimit = 3
         viewPager.setPagingEnabled(false)
+    }
+
+    override fun onResume() {
+        stopService()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        startService()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        stopService()
+        super.onDestroy()
     }
 }

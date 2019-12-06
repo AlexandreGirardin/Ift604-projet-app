@@ -22,36 +22,33 @@ class LikeService : Service() {
 
     private val latestNumberOfLikes = 0
     private var notificationId = 0
-    private var serviceRunning = true
+    var serviceRunning = true
 
     override fun onCreate() {
         var test: JSONArray
-        ApiClient.postApiLogin("alex@gmail.com", "12345")
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 while (serviceRunning)
                 {
-                    test = ApiClient.getApiSwipe()
-                    println(test)
-                    if (Random.nextInt(0, 6) == 3)
+                    if (ApiClient.loggedInUser?.token != "")
                     {
+                        test = ApiClient.getApiSwipe()
+                        println(test)
                         showNotification();
+                        delay(5000)
                     }
-                    delay(5000)
                 }
             }
         }
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         println("SERVICE START!!!!!!!!!!!!!")
-
-        Log.i("LocalService", "Received start id " + startId + ": " + intent);
-        return START_STICKY;
+        return START_STICKY
     }
 
     override fun onDestroy() { // Cancel the persistent notification.
@@ -66,16 +63,17 @@ class LikeService : Service() {
     private fun showNotification() { // In this sample, we'll use the same text for the ticker and the expanded notification
         val text = "Send UdeS"
         // The PendingIntent to launch our activity if the user selects this notification
-        /*val contentIntent = PendingIntent.getActivity(
+        val contentIntent = PendingIntent.getActivity(
             this, 0,
-            Intent(this, LocalServiceActivities.Controller::class.java), 0
-        )*/
+            Intent(this, MainActivity::class.java), 0
+        )
         val builder = NotificationCompat.Builder(this, "test")
             .setSmallIcon(R.drawable.heart_active)
             .setContentTitle("You've got a new match!")
             .setContentText("Much longer text that cannot fit one line...")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
+            .setContentIntent(contentIntent)
 
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library

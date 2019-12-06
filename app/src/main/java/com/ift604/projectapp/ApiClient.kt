@@ -1,12 +1,8 @@
 package com.ift604.projectapp
 
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.DataPart
 import com.github.kittinunf.fuel.core.FileDataPart
-import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.result.getAs
@@ -14,14 +10,13 @@ import com.ift604.projectapp.data.model.LoggedInUser
 import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
 
 
 object ApiClient {
 
     private val port = "8899"
     private val url = "http://172.105.99.204:$port"
-    lateinit var loggedInUser: LoggedInUser
+    var loggedInUser: LoggedInUser? = null
 
     // Possible routes for API
     private const val ROUTE_REGISTER = "/api/register"
@@ -39,7 +34,7 @@ object ApiClient {
         }
     }
 
-    fun postApiLogin(email: String, password: String): LoggedInUser {
+    fun postApiLogin(email: String, password: String): LoggedInUser? {
         runBlocking {
             loggedInUser = login(email, password)
         }
@@ -50,7 +45,7 @@ object ApiClient {
     fun getApiSwipe(): JSONArray {
         var swipeableUsers = JSONArray()
         runBlocking {
-            if (loggedInUser.token != "")
+            if (loggedInUser!!.token != "")
                 swipeableUsers = getSwipeableUsers()
         }
 
@@ -121,7 +116,7 @@ object ApiClient {
         try {
             Fuel.get(url + ROUTE_SWIPE)
                 .authentication()
-                .bearer(loggedInUser.token)
+                .bearer(loggedInUser!!.token)
                 .also { println(it.url) }
                 .responseString { result ->
                     jsonArray = JSONArray(result.get())
@@ -138,7 +133,7 @@ object ApiClient {
         try {
             Fuel.get(url + ROUTE_USERS)
                 .authentication()
-                .bearer(loggedInUser.token)
+                .bearer(loggedInUser!!.token)
                 .also { println(it.url) }
                 .responseString { result -> println()
                     jsonArray = JSONArray(result.getAs<String>())
@@ -154,7 +149,7 @@ object ApiClient {
         try {
             Fuel.post(url + ROUTE_SWIPE)
                 .authentication()
-                .bearer(loggedInUser.token)
+                .bearer(loggedInUser!!.token)
                 .jsonBody("{\"user_id\": $userId}")
                 .also { println("${it.url}, USER_ID: $userId") }
                 .responseString { result -> }.join()
@@ -169,6 +164,10 @@ object ApiClient {
 
     fun getUrl(): String {
         return url
+    }
+
+    fun logout() {
+        loggedInUser = null
     }
 
 
