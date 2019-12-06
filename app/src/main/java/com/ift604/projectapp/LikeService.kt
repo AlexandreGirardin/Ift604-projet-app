@@ -33,7 +33,7 @@ class LikeService : Service() {
                 {
                     test = ApiClient.getApiSwipe()
                     println(test)
-                    if (test.getJSONObject(0).getInt("id") == 3)
+                    if (Random.nextInt(0, 6) == 3)
                     {
                         showNotification();
                     }

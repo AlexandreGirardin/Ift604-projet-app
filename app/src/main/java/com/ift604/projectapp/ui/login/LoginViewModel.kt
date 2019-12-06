@@ -8,6 +8,7 @@ import com.ift604.projectapp.data.LoginRepository
 import com.ift604.projectapp.data.Result
 
 import com.ift604.projectapp.R
+import java.io.File
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
@@ -21,10 +22,11 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         username: String,
         password: String,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        profilePic: File
     ) {
         // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password, latitude, longitude)
+        val result = loginRepository.login(username, password, latitude, longitude, profilePic)
 
         if (result is Result.Success) {
             _loginResult.value =

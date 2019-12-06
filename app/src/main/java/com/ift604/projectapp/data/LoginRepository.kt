@@ -1,6 +1,7 @@
 package com.ift604.projectapp.data
 
 import com.ift604.projectapp.data.model.LoggedInUser
+import java.io.File
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -31,10 +32,11 @@ class LoginRepository(val dataSource: LoginDataSource) {
         username: String,
         password: String,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        profilePic: File
     ): Result<LoggedInUser> {
         // handle login
-        val result = dataSource.login(username, password, latitude, longitude)
+        val result = dataSource.login(username, password, latitude, longitude, profilePic)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)

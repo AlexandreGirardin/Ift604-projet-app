@@ -4,6 +4,7 @@ import com.ift604.projectapp.ApiClient
 import com.ift604.projectapp.DataGenerator
 import com.ift604.projectapp.Profile
 import com.ift604.projectapp.data.model.LoggedInUser
+import java.io.File
 import java.io.IOException
 import kotlin.random.Random
 
@@ -19,7 +20,8 @@ class LoginDataSource {
         username: String,
         password: String,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        profilePic: File
     ): Result<LoggedInUser> {
         try {
             ApiClient.postApiRegister(Profile(
@@ -29,7 +31,7 @@ class LoginDataSource {
                 password,
                 0,
                 arrayListOf(latitude, longitude),
-                "",
+                profilePic.path,
                 dg.generateBio(),
                 Random.nextInt(18, 99)
             ))

@@ -1,9 +1,12 @@
 package com.ift604.projectapp
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.ift604.projectapp.ui.login.LoginActivity
 
 
@@ -13,9 +16,6 @@ class MainLauncher: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val sp = getSharedPreferences("SendUdeS", Context.MODE_PRIVATE)
-
-        val intent = Intent(this, LikeService::class.java)
-        startService(intent)
 
         // TODO: ONLY FOR TESTING LOGIN
         sp.edit().putString("token", null).apply()

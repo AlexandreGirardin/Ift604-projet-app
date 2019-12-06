@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import com.ift604.projectapp.data.LoginDataSource
 import com.ift604.projectapp.data.LoginRepository
 import com.ift604.projectapp.ui.login.LoginActivity
@@ -38,6 +39,7 @@ class ProfileFragment : Fragment() {
 
         if (profile != null) {
             profileName.text = "${profile.name}, ${profile.age}"
+            profilePicture.setImageURI(profile.photo.toUri())
             Picasso.get()
                 .load(ApiClient.getUrl() + profile.photo)
                 .placeholder(R.drawable.profile_large)

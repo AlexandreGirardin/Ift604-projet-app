@@ -1,15 +1,21 @@
 package com.ift604.projectapp
 
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.DataPart
+import com.github.kittinunf.fuel.core.FileDataPart
+import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.result.getAs
 import com.ift604.projectapp.data.model.LoggedInUser
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.anko.doAsync
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+
 
 object ApiClient {
 
@@ -64,21 +70,22 @@ object ApiClient {
     private fun register(profile: Profile)
     {
         try {
-            Fuel.post(url + ROUTE_REGISTER)
-                .jsonBody("{" +
-                        "\"name\": \"${profile.name}\"," +
-                        "\"email\":\"${profile.email}\"," +
-                        "\"age\": \"${profile.age}\"," +
-                        "\"bio\": \"${profile.bio}\"," +
-                        "\"latitude\": ${profile.position[0]}," +
-                        "\"longitude\": ${profile.position[1]}," +
-                        "\"password\":\"${profile.password}\",\n" +
-                        "\"password_confirmation\": \"${profile.password}\"\n" +
-                        "}")
-                .also { println(it.url) }
+            val formData = listOf(
+                "name" to profile.name,
+                "email" to profile.email,
+                "age" to profile.age,
+                "bio" to profile.bio,
+                "latitude" to profile.position[0],
+                "longitude" to profile.position[1],
+                "password" to profile.password,
+                "password_confirmation" to profile.password)
+
+            Fuel.upload(url + ROUTE_REGISTER, parameters = formData)
+                .add(FileDataPart.from(profile.photo, name = "photo"))
+                .also { println(it) }
                 .response { result -> }.join()
         } catch (e: Exception) {
-            Log.e(e.toString(), e.message!!)
+            println(e.message!!)
         }
     }
 
