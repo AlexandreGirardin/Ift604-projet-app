@@ -2,13 +2,14 @@ package com.ift604.projectapp
 
 import org.json.JSONObject
 import kotlin.collections.ArrayList
+import kotlin.math.ceil
 
 class Profile {
     var id: Int? = null
     var name: String = ""
     var email: String = ""
     var password: String = ""
-    var distance: Int = 0
+    var distance: Double = 0.0
     var position: ArrayList<Double> = arrayListOf(0.0, 0.0)
     var photo: String = ""
     var bio: String = ""
@@ -22,7 +23,7 @@ class Profile {
         pName: String,
         pEmail: String,
         pPassword: String,
-        pDistance: Int,
+        pDistance: Double,
         pPosition: ArrayList<Double>,
         pPhoto: String,
         pBio: String,
@@ -32,7 +33,7 @@ class Profile {
         name = pName
         email = pEmail
         password = pPassword
-        distance = pDistance
+        distance = ceil(pDistance / 1000)
         position = pPosition
         photo = pPhoto
         bio = pBio

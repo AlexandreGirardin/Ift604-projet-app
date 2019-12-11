@@ -1,16 +1,9 @@
 package com.ift604.projectapp
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.viewpager.widget.ViewPager
 
 
@@ -26,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         viewPager = findViewById(R.id.viewpager)
         addTabs(viewPager)
+
+        startService()
 
         profilBtn = findViewById(R.id.profileBtn)
         profilBtn.setOnClickListener {
@@ -89,12 +84,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startService() {
-        val intent = Intent(this, LikeService::class.java)
+        val intent = Intent(this, MatchService::class.java)
         startService(intent)
     }
 
     private fun stopService() {
-        val intent = Intent(this, LikeService::class.java)
+        val intent = Intent(this, MatchService::class.java)
         stopService(intent)
     }
 
@@ -119,12 +114,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        stopService()
+        //stopService()
         super.onResume()
     }
 
     override fun onPause() {
-        startService()
+        //startService()
         super.onPause()
     }
 

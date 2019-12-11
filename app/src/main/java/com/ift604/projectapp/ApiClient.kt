@@ -23,6 +23,7 @@ object ApiClient {
     private const val ROUTE_LOGIN = "/api/login"
     private const val ROUTE_SWIPE = "/api/swipe"
     private const val ROUTE_USERS = "/api/users"
+    private const val ROUTE_MATCHES = "/api/matches"
 
     /**
      * Async functions to access used by other classes to make calls to the API.
@@ -58,6 +59,16 @@ object ApiClient {
         }
     }
 
+    fun getApiMatches(): JSONArray {
+        var matches = JSONArray()
+        runBlocking {
+            matches = fetchMatches()
+        }
+
+        println("MATCHES: $matches")
+        return matches
+    }
+
     /**
      * Functions that make the actual calls to the API.
      */
@@ -75,10 +86,15 @@ object ApiClient {
                 "password" to profile.password,
                 "password_confirmation" to profile.password)
 
-            Fuel.upload(url + ROUTE_REGISTER, parameters = formData)
-                .add(FileDataPart.from(profile.photo, name = "photo"))
-                .also { println(it) }
-                .response { result -> }.join()
+            if (profile.photo != "")
+                Fuel.upload(url + ROUTE_REGISTER, parameters = formData)
+                    .add(FileDataPart.from(profile.photo, name = "photo"))
+                    .also { println(it) }
+                    .response { result -> }.join()
+            else
+                Fuel.upload(url + ROUTE_REGISTER, parameters = formData)
+                    .also { println(it) }
+                    .response { result -> }.join()
         } catch (e: Exception) {
             println(e.message!!)
         }
@@ -158,6 +174,23 @@ object ApiClient {
         }
     }
 
+    private fun fetchMatches(): JSONArray {
+        var matches = JSONArray()
+        try {
+            Fuel.get(url + ROUTE_MATCHES)
+                .authentication()
+                .bearer(loggedInUser!!.token)
+                .also { println("${it.url}") }
+                .responseString { result ->
+                    matches = JSONArray(result.getAs<String>())
+                }.join()
+        } catch (e: Exception) {
+            Log.e(e.toString(), e.message!!)
+        }
+
+        return matches
+    }
+
     /**
      * Other useful functions.
      */
@@ -169,6 +202,4 @@ object ApiClient {
     fun logout() {
         loggedInUser = null
     }
-
-
 }

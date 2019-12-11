@@ -47,6 +47,7 @@ class ProfileFragment : Fragment() {
 
         settingsBtn = view.findViewById(R.id.settingsBtn)
         settingsBtn.setOnClickListener {
+            // TODO: Stop the service
             LoginRepository( dataSource = LoginDataSource()).logout()
             val sp = activity?.getSharedPreferences("SendUdeS", Context.MODE_PRIVATE)?.edit()
             sp?.remove("token")

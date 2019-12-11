@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import kotlin.math.ceil
 
 class CardStackAdapter(
     private var profiles: List<Profile> = emptyList()
@@ -23,7 +24,7 @@ class CardStackAdapter(
         holder.name.text = profil.name
         holder.age.text = profil.age.toString()
         holder.work.text = profil.email         // TODO: Change field for email.
-        holder.distance.text = "${profil.distance} km away"
+        holder.distance.text = "${ceil(profil.distance / 1000)} km away"
         Picasso.get()
             .load(ApiClient.getUrl() + profil.photo)
             .placeholder(R.drawable.profile_large)

@@ -2,40 +2,39 @@ package com.ift604.projectapp
 
 import android.app.*
 import android.content.Context
-import com.ift604.projectapp.R
 import android.content.Intent
-import android.graphics.Color
-import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.coroutines.*
 import org.json.JSONArray
-import java.lang.Exception
-import kotlin.random.Random
+import org.json.JSONObject
 
 
-class LikeService : Service() {
+class MatchService : Service() {
 
-    private val latestNumberOfLikes = 0
+    private var latestNumberOfLikes = 0
     private var notificationId = 0
     var serviceRunning = true
 
     override fun onCreate() {
-        var test: JSONArray
+        var matches: JSONArray
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
+                latestNumberOfLikes = ApiClient.getApiMatches().length()
                 while (serviceRunning)
                 {
                     if (ApiClient.loggedInUser?.token != "")
                     {
-                        test = ApiClient.getApiSwipe()
-                        println(test)
-                        showNotification();
-                        delay(5000)
+                        matches = ApiClient.getApiMatches()
+                        if (latestNumberOfLikes < matches.length())
+                        {
+                            showNotification(matches.getJSONObject(matches.length() - 1))
+                            latestNumberOfLikes = matches.length()
+                        }
+                        delay(1000)
                     }
                 }
             }
@@ -60,8 +59,7 @@ class LikeService : Service() {
     /**
      * Show a notification while this service is running.
      */
-    private fun showNotification() { // In this sample, we'll use the same text for the ticker and the expanded notification
-        val text = "Send UdeS"
+    private fun showNotification(jsonObject: JSONObject) {
         // The PendingIntent to launch our activity if the user selects this notification
         val contentIntent = PendingIntent.getActivity(
             this, 0,
@@ -69,8 +67,8 @@ class LikeService : Service() {
         )
         val builder = NotificationCompat.Builder(this, "test")
             .setSmallIcon(R.drawable.heart_active)
-            .setContentTitle("You've got a new match!")
-            .setContentText("Much longer text that cannot fit one line...")
+            .setContentTitle("You matched with ${jsonObject.getString("name")}")
+            .setContentText("Go see their profile!")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .setContentIntent(contentIntent)

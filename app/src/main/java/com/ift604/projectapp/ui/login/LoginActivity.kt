@@ -25,7 +25,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.ift604.projectapp.LikeService
 import com.ift604.projectapp.MainActivity
 
 import com.ift604.projectapp.R
@@ -65,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
         tvCity = findViewById(R.id.tvCity)
 
         if (city == "")
-            tvCity.text = ""
+            tvCity.text = "Erreur GPS"
         else
             tvCity.text = city
 
@@ -216,8 +215,6 @@ class LoginActivity : AppCompatActivity() {
                 val profilePicView = findViewById<ImageView>(R.id.profilePicView)
                 profilePicView.setImageURI(selectedImage);
                 profilePic = File(convertMediaUriToPath(selectedImage)!!)
-
-                println(profilePic.exists())
             }
         }
 

@@ -104,11 +104,13 @@ class SwipeFragment : Fragment(), CardStackListener {
 
         showCardBtn = view.findViewById(R.id.showCardBtn)
         showCardBtn.setOnClickListener{v ->
+            val profile = adapter.getProfiles()[manager.topPosition]
             val rootView = v.rootView
             val bioScrollView = rootView.findViewById<ScrollView>(R.id.bioScrollView)
             val mainMenu = rootView.findViewById<LinearLayout>(R.id.mainMenu)
             val cardView = rootView.findViewById<CardStackView>(R.id.swipeCard)
             val swipeBackground = rootView.findViewById<LinearLayout>(R.id.swipeBackground)
+            bioScrollView.findViewById<TextView>(R.id.bioText).text = profile.bio
             bioScrollView.visibility = View.GONE
             cardView.visibility = View.VISIBLE
             mainMenu.visibility = View.VISIBLE

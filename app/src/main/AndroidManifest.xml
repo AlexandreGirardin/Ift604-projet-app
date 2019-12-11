@@ -17,7 +17,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
         <service
-            android:name=".LikeService"
+            android:name=".MatchService"
             android:enabled="true"
             android:exported="true"></service>
 

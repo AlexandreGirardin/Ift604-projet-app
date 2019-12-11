@@ -4,9 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import com.yuyakaido.android.cardstackview.CardStackView
 
 class LikeAdapter(
     private var profiles: List<Profile> = emptyList()
@@ -20,6 +25,7 @@ class LikeAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val profile = profiles[position]
         holder.name.text = "${profile.name}, ${profile.age}"
+        holder.distance.text = "${profile.distance} km away"
 
         Picasso.get()
             .load(ApiClient.getUrl() + profile.photo)
@@ -45,6 +51,7 @@ class LikeAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var image: ImageView = view.findViewById(R.id.likePicture)
         val name: TextView = view.findViewById(R.id.likeName)
-        val work: TextView = view.findViewById(R.id.likeWork)
+        val distance: TextView = view.findViewById(R.id.likeDistance)
+        val cardView: CardView = view.findViewById(R.id.likeCard)
     }
 }

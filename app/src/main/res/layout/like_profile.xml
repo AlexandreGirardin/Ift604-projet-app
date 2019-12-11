@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/likeCard"
     android:layout_width="160dp"
     android:layout_height="215dp"
     android:layout_margin="10dp"
@@ -15,6 +16,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
+        android:id="@+id/likeCardLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
@@ -30,10 +32,12 @@
             android:textColor="#FFFFFF" />
 
         <TextView
-            android:id="@+id/likeWork"
+            android:id="@+id/likeDistance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Work"
             android:textColor="#FFFFFF" />
+
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
