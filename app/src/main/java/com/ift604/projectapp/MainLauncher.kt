@@ -17,7 +17,6 @@ class MainLauncher: AppCompatActivity() {
 
         val sp = getSharedPreferences("SendUdeS", Context.MODE_PRIVATE)
 
-        // TODO: ONLY FOR TESTING LOGIN
         sp.edit().putString("token", null).apply()
 
         val activityIntent: Intent = if ( sp.getString("token", null) != null) {

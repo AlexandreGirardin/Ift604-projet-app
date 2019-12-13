@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.ift604.projectapp.data.LoginDataSource
 import com.ift604.projectapp.data.LoginRepository
@@ -47,7 +48,7 @@ class ProfileFragment : Fragment() {
 
         settingsBtn = view.findViewById(R.id.settingsBtn)
         settingsBtn.setOnClickListener {
-            // TODO: Stop the service
+            stopService()
             LoginRepository( dataSource = LoginDataSource()).logout()
             val sp = activity?.getSharedPreferences("SendUdeS", Context.MODE_PRIVATE)?.edit()
             sp?.remove("token")
@@ -58,6 +59,11 @@ class ProfileFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun stopService() {
+        val intent = Intent(context, MatchService::class.java)
+        activity?.stopService(intent)
     }
 
     private fun fetchUserProfile() {

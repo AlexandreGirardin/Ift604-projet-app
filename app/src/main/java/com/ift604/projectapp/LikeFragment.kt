@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
+import org.json.JSONArray
 
 class LikeFragment : Fragment() {
     private lateinit var likeRecyclerView: RecyclerView
@@ -34,10 +35,14 @@ class LikeFragment : Fragment() {
     }
 
     private fun fetchLikeProfile(): List<Profile> {
+        var lSwipeableUsers = listOf<Profile>()
         val jsonArrayOfSwipeables = ApiClient.getApiMatches()
 
-        val gson = GsonBuilder().create()
-        val lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()
+        if (jsonArrayOfSwipeables.length() > 0)
+        {
+            val gson = GsonBuilder().create()
+            lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()
+        }
 
         return lSwipeableUsers
     }

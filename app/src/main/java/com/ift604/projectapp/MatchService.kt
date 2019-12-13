@@ -26,16 +26,13 @@ class MatchService : Service() {
                 latestNumberOfLikes = ApiClient.getApiMatches().length()
                 while (serviceRunning)
                 {
-                    if (ApiClient.loggedInUser?.token != "")
+                    matches = ApiClient.getApiMatches()
+                    if (latestNumberOfLikes < matches.length())
                     {
-                        matches = ApiClient.getApiMatches()
-                        if (latestNumberOfLikes < matches.length())
-                        {
-                            showNotification(matches.getJSONObject(matches.length() - 1))
-                            latestNumberOfLikes = matches.length()
-                        }
-                        delay(1000)
+                        showNotification(matches.getJSONObject(matches.length() - 1))
+                        latestNumberOfLikes = matches.length()
                     }
+                    delay(1000)
                 }
             }
         }
