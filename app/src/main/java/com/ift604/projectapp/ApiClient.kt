@@ -61,8 +61,11 @@ object ApiClient {
 
     fun getApiMatches(): JSONArray {
         var matches = JSONArray()
-        runBlocking {
-            matches = fetchMatches()
+        if (loggedInUser?.token != "")
+        {
+            runBlocking {
+                matches = fetchMatches()
+            }
         }
 
         println("MATCHES: $matches")
@@ -194,6 +197,11 @@ object ApiClient {
     /**
      * Other useful functions.
      */
+
+    fun userIsLoggedIn(): Boolean
+    {
+        return loggedInUser?.token != ""
+    }
 
     fun getUrl(): String {
         return url

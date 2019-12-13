@@ -44,10 +44,14 @@ class MessageFragment : Fragment() {
     }
 
     private fun fetchNewMatchesData(): List<Profile> {
+        var lSwipeableUsers = listOf<Profile>()
         val jsonArrayOfSwipeables = ApiClient.getApiMatches()
 
-        val gson = GsonBuilder().create()
-        val lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()
+        if (jsonArrayOfSwipeables.length() > 0)
+        {
+            val gson = GsonBuilder().create()
+            lSwipeableUsers = gson.fromJson(jsonArrayOfSwipeables.toString() , Array<Profile>::class.java).toList()
+        }
 
         return lSwipeableUsers
     }
