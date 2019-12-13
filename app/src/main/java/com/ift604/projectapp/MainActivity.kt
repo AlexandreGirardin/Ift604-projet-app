@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        
         viewPager = findViewById(R.id.viewpager)
         addTabs(viewPager)
 
@@ -46,10 +47,10 @@ class MainActivity : AppCompatActivity() {
             viewPager.setCurrentItem(3, true)
         }
 
-        viewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-                if(ViewPager.SCROLL_STATE_IDLE == state){
-                    when(viewPager.currentItem) {
+                if (ViewPager.SCROLL_STATE_IDLE == state) {
+                    when (viewPager.currentItem) {
                         0 -> {
                             viewPager.setPagingEnabled(true)
                             toggleButtons(profilBtn, R.drawable.profile_active)
@@ -109,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         adapter.addFrag(MessageFragment.newInstance())
         viewPager.adapter = adapter
         viewPager.currentItem = 1
-        viewPager.offscreenPageLimit = 3
         viewPager.setPagingEnabled(false)
     }
 

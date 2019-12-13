@@ -20,7 +20,7 @@ class MessageAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val match = messages[position]
         holder.name.text = match.name
-        holder.preview.text = "Netflix and chill?"
+        holder.preview.text = "Wanna Hangout?"
         Picasso.get()
             .load(ApiClient.getUrl() + match.photo)
             .placeholder(R.drawable.profile_large)

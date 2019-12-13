@@ -11,6 +11,7 @@ import android.widget.*
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
@@ -22,7 +23,6 @@ import com.yuyakaido.android.cardstackview.*
 class SwipeFragment : Fragment(), CardStackListener {
     private lateinit var bioScrollView: ScrollView
     private lateinit var cardStackView: CardStackView
-    private lateinit var manager: CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
 
     private lateinit var rewindBtn: ImageButton
@@ -34,12 +34,10 @@ class SwipeFragment : Fragment(), CardStackListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        manager = CardStackLayoutManager(activity, this)
         adapter = CardStackAdapter(fetchSwipeableUsers())
-        setupManager()
     }
 
-    private fun setupManager() {
+    private fun setupManager(manager: CardStackLayoutManager) {
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
@@ -57,9 +55,20 @@ class SwipeFragment : Fragment(), CardStackListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val manager = CardStackLayoutManager(activity, this)
+        setupManager(manager)
         val view = inflater.inflate(R.layout.fragment_swipe, container, false)
+        val profile = ApiClient.loggedInUser!!.profile
+        val profilePicture = view.findViewById<ImageView>(R.id.userProfilPicture)
+        profilePicture.setImageURI(profile.photo.toUri())
+        Picasso.get()
+            .load(ApiClient.getUrl() + profile.photo)
+            .placeholder(R.drawable.profile_large)
+            .error(R.drawable.profile_large)
+            .into(profilePicture)
+
         cardStackView = view.findViewById(R.id.swipeCard)
-        setupCardStackView()
+        setupCardStackView(manager)
 
         rewindBtn = view.findViewById(R.id.rewindBtn)
         rewindBtn.setOnClickListener {
@@ -125,7 +134,7 @@ class SwipeFragment : Fragment(), CardStackListener {
             SwipeFragment()
     }
 
-    private fun setupCardStackView() {
+    private fun setupCardStackView(manager: CardStackLayoutManager) {
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator.apply {
@@ -140,6 +149,7 @@ class SwipeFragment : Fragment(), CardStackListener {
     }
 
     override fun onCardSwiped(direction: Direction) {
+        val manager: CardStackLayoutManager = cardStackView.layoutManager as CardStackLayoutManager
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
         if (manager.topPosition == adapter.itemCount - 5) {
             paginate()
@@ -174,10 +184,12 @@ class SwipeFragment : Fragment(), CardStackListener {
     }
 
     override fun onCardRewound() {
+        val manager: CardStackLayoutManager = cardStackView.layoutManager as CardStackLayoutManager
         Log.d("CardStackView", "onCardRewound: ${manager.topPosition}")
     }
 
     override fun onCardCanceled() {
+        val manager: CardStackLayoutManager = cardStackView.layoutManager as CardStackLayoutManager
         Log.d("CardStackView", "onCardCanceled: ${manager.topPosition}")
     }
 

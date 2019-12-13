@@ -7,12 +7,14 @@
     android:layout_height="215dp"
     android:layout_margin="10dp"
     android:orientation="vertical"
-    app:cardBackgroundColor="#AAAAAA">
+    app:cardBackgroundColor="#AAAAAA"
+    app:cardCornerRadius="5dp">
 
     <ImageView
         android:id="@+id/likePicture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
